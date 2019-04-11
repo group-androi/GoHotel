@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:text="DHOTEL"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22dp"
+            tools:alpha="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:alpha="0"
+            android:text="Phút giây thăng hoa"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle.Inverse"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16dp"
+            tools:alpha="1" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/logoCenter"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_primary"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/logoBottomSplashScreen"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/logo_bottom_splash_screen"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+</RelativeLayout>
+
+
+
+
