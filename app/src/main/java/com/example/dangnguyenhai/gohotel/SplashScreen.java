@@ -325,6 +325,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void gotoMainScreen(){
         Intent intent=new Intent(SplashScreen.this,MainActivity.class);
+        intent.putExtra("address",newAddress);
         startActivity(intent);
         finish();
     }

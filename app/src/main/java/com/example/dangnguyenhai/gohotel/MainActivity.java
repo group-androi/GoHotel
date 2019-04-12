@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.Enums.TypeFragment;
+import com.example.dangnguyenhai.gohotel.Fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout rltHome, rltSearch, rltMap, rltAccount;
     private ImageView imgHome, imgSearch, imgMap, imgAccount;
     private TextView tvHome, tvSearch, tvMap, tvAccount;
+    private String address;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,9 +34,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getWindow().setStatusBarColor(resources.getColor(R.color.colorWhite));
             }
         }
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            address = getIntent().getExtras().getString("address");
+        }
 
         addViews();
+        changeTab(TypeFragment.HOME.getType());
+        addFragment(savedInstanceState);
+
+        handleMainActivity();
     }
+
+    private void addFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            HomeFragment newFragment = HomeFragment.newInstance(address);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.frLayout, newFragment).commit();
+        }
+    }
+
+    private void handleMainActivity() {
+    }
+
 
     private void addViews() {
         rltHome = findViewById(R.id.rltHome);
