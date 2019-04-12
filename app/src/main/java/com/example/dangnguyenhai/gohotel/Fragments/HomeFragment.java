@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.adapter.HotelAdapter;
 
 public class HomeFragment extends Fragment {
 

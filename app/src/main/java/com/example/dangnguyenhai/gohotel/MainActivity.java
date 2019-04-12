@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.Enums.TypeFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.HomeFragment;
+import com.example.dangnguyenhai.gohotel.Fragments.MapFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         addViews();
-        changeTab(TypeFragment.HOME.getType());
+        changeTab(TypeFragment.MAP.getType());
         addFragment(savedInstanceState);
 
         handleMainActivity();
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            HomeFragment newFragment = HomeFragment.newInstance(address);
+            MapFragment newFragment = MapFragment.newInstance(address);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.frLayout, newFragment).commit();
         }

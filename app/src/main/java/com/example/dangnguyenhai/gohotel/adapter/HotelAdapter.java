@@ -1,4 +1,4 @@
-package com.example.dangnguyenhai.gohotel.Fragments;
+package com.example.dangnguyenhai.gohotel.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.dangnguyenhai.gohotel.R;
 
-class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> {
+public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> {
     private Context context;
 
     public HotelAdapter(Context context) {
