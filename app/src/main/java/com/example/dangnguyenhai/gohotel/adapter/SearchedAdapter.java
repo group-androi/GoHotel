@@ -6,15 +6,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.model.SearchForm;
 
-public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> {
+import java.util.List;
+
+public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.ViewHolder> {
     private Context context;
 
-    public HotelAdapter(Context context) {
+    public SearchedAdapter(Context context, List<SearchForm> searchForms) {
         this.context = context;
     }
 
@@ -22,26 +23,23 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.hotel_adapter, parent, false);
-        return new ViewHolder(view);
+        View view = inflater.inflate(R.layout.searched_adapter, parent, false);
+        return new SearchedAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(R.drawable.ic_hotel).into(holder.imgHotel);
+
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 5;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgHotel;
-
-        ViewHolder(View itemView) {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public ViewHolder(View itemView) {
             super(itemView);
-            imgHotel = itemView.findViewById(R.id.imgHotel);
         }
     }
 }

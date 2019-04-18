@@ -12,8 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.Enums.TypeFragment;
-import com.example.dangnguyenhai.gohotel.Fragments.HomeFragment;
-import com.example.dangnguyenhai.gohotel.Fragments.MapFragment;
+import com.example.dangnguyenhai.gohotel.Fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            MapFragment newFragment = MapFragment.newInstance(address);
+            SearchFragment newFragment = SearchFragment.newInstance();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.frLayout, newFragment).commit();
         }

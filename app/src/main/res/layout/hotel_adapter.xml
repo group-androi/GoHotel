@@ -10,7 +10,7 @@
         android:layout_height="170dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/hotel" />
+        android:src="@drawable/ic_hotel" />
 
     <LinearLayout
         android:layout_width="match_parent"
