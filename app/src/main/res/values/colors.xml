@@ -8,6 +8,8 @@
     <color name="colorSearch">#E3E3E3</color>
     <color name="colorBlack">#000000</color>
     <color name="colorStorm">#272E36</color>
+    <color name="rsbColorThumbDefault">#FFFFFF</color>
+    <color name="rsbColorThumbBorder">#FFD7D7D7</color>
 
 
 </resources>
