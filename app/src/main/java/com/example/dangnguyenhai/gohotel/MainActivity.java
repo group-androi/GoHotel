@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.Enums.TypeFragment;
+import com.example.dangnguyenhai.gohotel.Fragments.HomeFragment;
+import com.example.dangnguyenhai.gohotel.Fragments.MapFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -21,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView imgHome, imgSearch, imgMap, imgAccount;
     private TextView tvHome, tvSearch, tvMap, tvAccount;
     private String address;
+    private HomeFragment homeFragment;
+    private SearchFragment searchFragment;
+    private MapFragment mapFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         addViews();
-        changeTab(TypeFragment.MAP.getType());
-        addFragment(savedInstanceState);
+        changeTab(TypeFragment.HOME.getType());
+        //addFragment(savedInstanceState);
 
         handleMainActivity();
     }
@@ -115,7 +120,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tvMap.setTextColor(getResources().getColor(R.color.colorDefault));
             tvAccount.setTextColor(getResources().getColor(R.color.colorDefault));
 
-        } else if (potition == TypeFragment.SEARCH.getType()) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            if (homeFragment == null) {
+                homeFragment = HomeFragment.newInstance(address);
+            }
+            if (homeFragment.isAdded()) { // if the fragment is already in container
+                ft.show(homeFragment);
+            } else { // fragment needs to be added to frame container
+                ft.add(R.id.frLayout, homeFragment, "homeFragment");
+            }
+            // Hide fragment B
+            if (mapFragment == null) {
+                mapFragment = MapFragment.newInstance(address);
+            }
+            if (mapFragment.isAdded()) {
+                ft.hide(mapFragment);
+            }
+            // Hide fragment C
+            if (searchFragment == null) {
+                searchFragment = SearchFragment.newInstance();
+            }
+            if (searchFragment.isAdded()) {
+                ft.hide(searchFragment);
+            }
+            // Commit changes
+            ft.commit();
+
+        } else if (potition == TypeFragment.MAP.getType()) {
             imgHome.setImageResource(R.drawable.home);
             imgSearch.setImageResource(R.drawable.search_selected);
             imgMap.setImageResource(R.drawable.map);
@@ -125,7 +156,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tvSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
             tvMap.setTextColor(getResources().getColor(R.color.colorDefault));
             tvAccount.setTextColor(getResources().getColor(R.color.colorDefault));
-        } else if (potition == TypeFragment.MAP.getType()) {
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            if (mapFragment == null) {
+                mapFragment = MapFragment.newInstance(address);
+            }
+            if (mapFragment.isAdded()) { // if the fragment is already in container
+                ft.show(mapFragment);
+            } else { // fragment needs to be added to frame container
+                ft.add(R.id.frLayout, mapFragment, "homeFragment");
+            }
+            // Hide fragment B
+            if (homeFragment == null) {
+                homeFragment = HomeFragment.newInstance(address);
+            }
+            if (homeFragment.isAdded()) {
+                ft.hide(homeFragment);
+            }
+            // Hide fragment C
+            if (searchFragment == null) {
+                searchFragment = SearchFragment.newInstance();
+            }
+            if (searchFragment.isAdded()) {
+                ft.hide(searchFragment);
+            }
+            // Commit changes
+            ft.commit();
+
+        } else if (potition == TypeFragment.SEARCH.getType()) {
             imgHome.setImageResource(R.drawable.home);
             imgSearch.setImageResource(R.drawable.search);
             imgMap.setImageResource(R.drawable.map_selected);
@@ -135,6 +193,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tvSearch.setTextColor(getResources().getColor(R.color.colorDefault));
             tvMap.setTextColor(getResources().getColor(R.color.colorPrimary));
             tvAccount.setTextColor(getResources().getColor(R.color.colorDefault));
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            if (searchFragment == null) {
+                mapFragment = MapFragment.newInstance(address);
+            }
+            if (mapFragment.isAdded()) { // if the fragment is already in container
+                ft.show(mapFragment);
+            } else { // fragment needs to be added to frame container
+                ft.add(R.id.frLayout, mapFragment, "homeFragment");
+            }
+            // Hide fragment B
+            if (homeFragment == null) {
+                homeFragment = HomeFragment.newInstance(address);
+            }
+            if (homeFragment.isAdded()) {
+                ft.hide(homeFragment);
+            }
+            // Hide fragment C
+            if (searchFragment == null) {
+                searchFragment = SearchFragment.newInstance();
+            }
+            if (searchFragment.isAdded()) {
+                ft.hide(searchFragment);
+            }
+            // Commit changes
+            ft.commit();
         } else {
             imgHome.setImageResource(R.drawable.home);
             imgSearch.setImageResource(R.drawable.search);

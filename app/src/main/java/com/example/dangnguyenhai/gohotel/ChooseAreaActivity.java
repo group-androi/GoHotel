@@ -11,7 +11,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.area_setting_activity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.wh));
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
         }
     }
 }
