@@ -148,13 +148,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (potition == TypeFragment.MAP.getType()) {
             imgHome.setImageResource(R.drawable.home);
-            imgSearch.setImageResource(R.drawable.search_selected);
-            imgMap.setImageResource(R.drawable.map);
+            imgSearch.setImageResource(R.drawable.search);
+            imgMap.setImageResource(R.drawable.map_selected);
             imgAccount.setImageResource(R.drawable.user);
 
             tvHome.setTextColor(getResources().getColor(R.color.colorDefault));
-            tvSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
-            tvMap.setTextColor(getResources().getColor(R.color.colorDefault));
+            tvSearch.setTextColor(getResources().getColor(R.color.colorDefault));
+            tvMap.setTextColor(getResources().getColor(R.color.colorPrimary));
             tvAccount.setTextColor(getResources().getColor(R.color.colorDefault));
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -185,23 +185,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (potition == TypeFragment.SEARCH.getType()) {
             imgHome.setImageResource(R.drawable.home);
-            imgSearch.setImageResource(R.drawable.search);
-            imgMap.setImageResource(R.drawable.map_selected);
+            imgSearch.setImageResource(R.drawable.search_selected);
+            imgMap.setImageResource(R.drawable.map);
             imgAccount.setImageResource(R.drawable.user);
 
             tvHome.setTextColor(getResources().getColor(R.color.colorDefault));
-            tvSearch.setTextColor(getResources().getColor(R.color.colorDefault));
-            tvMap.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tvSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tvMap.setTextColor(getResources().getColor(R.color.colorDefault));
             tvAccount.setTextColor(getResources().getColor(R.color.colorDefault));
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             if (searchFragment == null) {
-                mapFragment = MapFragment.newInstance(address);
+                searchFragment = SearchFragment.newInstance();
             }
-            if (mapFragment.isAdded()) { // if the fragment is already in container
-                ft.show(mapFragment);
+            if (searchFragment.isAdded()) { // if the fragment is already in container
+                ft.show(searchFragment);
             } else { // fragment needs to be added to frame container
-                ft.add(R.id.frLayout, mapFragment, "homeFragment");
+                ft.add(R.id.frLayout, searchFragment, "homeFragment");
             }
             // Hide fragment B
             if (homeFragment == null) {
@@ -211,11 +211,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ft.hide(homeFragment);
             }
             // Hide fragment C
-            if (searchFragment == null) {
-                searchFragment = SearchFragment.newInstance();
+            if (mapFragment == null) {
+                mapFragment = MapFragment.newInstance(address);
             }
-            if (searchFragment.isAdded()) {
-                ft.hide(searchFragment);
+            if (mapFragment.isAdded()) {
+                ft.hide(mapFragment);
             }
             // Commit changes
             ft.commit();

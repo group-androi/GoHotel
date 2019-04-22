@@ -9,6 +9,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import java.text.DecimalFormat;
+
 public class Utils {
     public static int compareFloat(float a, float b) {
         int ta = Math.round(a * 100000);
@@ -50,5 +52,12 @@ public class Utils {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    public static String formatCurrency(int price) {
+        String currency;
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        currency = formatter.format(price);
+        return currency;
     }
 }

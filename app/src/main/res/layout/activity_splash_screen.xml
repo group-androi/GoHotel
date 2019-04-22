@@ -10,7 +10,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:src="@drawable/ic_primary"
         tools:visibility="visible" />
 
@@ -20,7 +20,7 @@
         android:layout_below="@+id/logoCenter"
         android:layout_centerInParent="true"
         android:layout_marginTop="16dp"
-        android:text="DHOTEL"
+        android:text="GO HOTEL"
         android:textColor="@color/colorPrimary"
         android:textSize="56dp"
         />

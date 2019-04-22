@@ -28,7 +28,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(R.drawable.ic_hotel).into(holder.imgHotel);
+        Glide.with(context).load(R.drawable.bananahotel).into(holder.imgHotel);
     }
 
     @Override

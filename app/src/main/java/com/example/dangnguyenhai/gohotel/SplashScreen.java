@@ -294,7 +294,6 @@ public class SplashScreen extends AppCompatActivity {
             newAddress = TextUtils.join(System.getProperty("line.separator"),
                     addressFragments);
 
-            Toast.makeText(this,newAddress,Toast.LENGTH_LONG).show();
             gotoMainScreen();
         }
 
