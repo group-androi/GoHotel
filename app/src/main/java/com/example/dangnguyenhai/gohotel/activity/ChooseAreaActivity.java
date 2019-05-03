@@ -1,9 +1,9 @@
-package com.example.dangnguyenhai.gohotel;
+package com.example.dangnguyenhai.gohotel.activity;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+        import android.os.Build;
+        import android.os.Bundle;
+        import android.support.annotation.Nullable;
+        import android.support.v7.app.AppCompatActivity;
 
 public class ChooseAreaActivity extends AppCompatActivity {
     @Override

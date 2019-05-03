@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.dangnguyenhai.gohotel.R;
-import com.example.dangnguyenhai.gohotel.SearchActivity;
+import com.example.dangnguyenhai.gohotel.activity.SearchActivity;
 import com.example.dangnguyenhai.gohotel.adapter.SearchedAdapter;
 import com.example.dangnguyenhai.gohotel.model.SearchForm;
 import com.google.android.flexbox.FlexDirection;

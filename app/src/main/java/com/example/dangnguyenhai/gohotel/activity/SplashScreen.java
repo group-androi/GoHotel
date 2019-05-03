@@ -1,4 +1,4 @@
-package com.example.dangnguyenhai.gohotel;
+package com.example.dangnguyenhai.gohotel.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -18,7 +18,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;

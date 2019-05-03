@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.R;
-import com.example.dangnguyenhai.gohotel.SortFilterActivity;
+import com.example.dangnguyenhai.gohotel.activity.SortFilterActivity;
 import com.example.dangnguyenhai.gohotel.adapter.HotelAdapter;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
