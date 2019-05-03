@@ -1,4 +1,4 @@
-package com.example.dangnguyenhai.gohotel;
+package com.example.dangnguyenhai.gohotel.activity;
 
 import android.content.res.Resources;
 import android.os.Build;

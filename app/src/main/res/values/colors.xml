@@ -10,6 +10,8 @@
     <color name="colorStorm">#272E36</color>
     <color name="rsbColorThumbDefault">#FFFFFF</color>
     <color name="rsbColorThumbBorder">#FFD7D7D7</color>
+    <color name="lg">#e6e6e6</color>
+    <color name="bk_50p">#80000000</color>
 
 
 </resources>

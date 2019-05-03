@@ -21,19 +21,21 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDAXZPpfl9oNF-MpeglPBuSE1yuadS_AcD" />
 
-        <activity android:name=".SplashScreen">
+        <activity android:name=".activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".SortFilterActivity">
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.SortFilterActivity">
 
         </activity>
-        <activity android:name=".ChooseAreaActivity" />
+        <activity android:name=".activity.ChooseAreaActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.SignUpActivity" />
     </application>
 
 </manifest>
