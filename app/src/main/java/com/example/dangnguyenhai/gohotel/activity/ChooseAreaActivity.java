@@ -5,6 +5,8 @@ package com.example.dangnguyenhai.gohotel.activity;
         import android.support.annotation.Nullable;
         import android.support.v7.app.AppCompatActivity;
 
+        import com.example.dangnguyenhai.gohotel.R;
+
 public class ChooseAreaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -12,6 +12,7 @@ import android.view.Display;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.adapter.RoomImageDetailAdapter;
 
 public class HotelDetailActivity extends AppCompatActivity {

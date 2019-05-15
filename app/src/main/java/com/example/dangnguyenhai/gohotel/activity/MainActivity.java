@@ -15,6 +15,7 @@ import com.example.dangnguyenhai.gohotel.Enums.TypeFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.HomeFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.MapFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.SearchFragment;
+import com.example.dangnguyenhai.gohotel.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

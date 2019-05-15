@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.utils.Utils;
 import com.example.dangnguyenhai.gohotel.widgets.OnRangeChangedListener;
 import com.example.dangnguyenhai.gohotel.widgets.RangeSeekBar;
