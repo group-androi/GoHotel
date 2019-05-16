@@ -12,6 +12,8 @@
     <color name="rsbColorThumbBorder">#FFD7D7D7</color>
     <color name="lg">#e6e6e6</color>
     <color name="bk_50p">#80000000</color>
+    <color name="black_85p">#D9000000</color>
+    <color name="lightGrey">#d3d3d3</color>
 
 
 </resources>

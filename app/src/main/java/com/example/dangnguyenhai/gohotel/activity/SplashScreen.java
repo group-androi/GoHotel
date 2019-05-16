@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -194,9 +195,9 @@ public class SplashScreen extends AppCompatActivity {
                         try {
                             // Show the dialog by calling startResolutionForResult(), and check the
                             // result in onActivityResult().
-                                mRequestingLocationUpdates = false;
-                                ResolvableApiException rae = (ResolvableApiException) e;
-                                rae.startResolutionForResult(SplashScreen.this, REQUEST_CHECK_SETTINGS);
+                            mRequestingLocationUpdates = false;
+                            ResolvableApiException rae = (ResolvableApiException) e;
+                            rae.startResolutionForResult(SplashScreen.this, REQUEST_CHECK_SETTINGS);
 
 
                         } catch (IntentSender.SendIntentException sie) {
@@ -294,6 +295,9 @@ public class SplashScreen extends AppCompatActivity {
             newAddress = TextUtils.join(System.getProperty("line.separator"),
                     addressFragments);
 
+            PreferenceUtils.setLatLocation(SplashScreen.this, Double.toString(location.getLatitude()));
+            PreferenceUtils.setLongLocation(SplashScreen.this, Double.toString(location.getLongitude()));
+
             gotoMainScreen();
         }
 
@@ -322,9 +326,9 @@ public class SplashScreen extends AppCompatActivity {
         startLocationUpdates();
     }
 
-    private void gotoMainScreen(){
-        Intent intent=new Intent(SplashScreen.this,MainActivity.class);
-        intent.putExtra("address",newAddress);
+    private void gotoMainScreen() {
+        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+        intent.putExtra("address", newAddress);
         startActivity(intent);
         finish();
     }
