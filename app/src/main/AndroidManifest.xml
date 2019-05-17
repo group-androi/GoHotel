@@ -48,6 +48,9 @@
 
         </activity>
         <activity android:name=".activity.HotelDetailActivity">
+
+        </activity>
+        <activity android:name=".activity.ReservationActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
