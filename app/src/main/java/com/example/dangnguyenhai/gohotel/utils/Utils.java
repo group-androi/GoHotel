@@ -10,6 +10,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Utils {
     public static int compareFloat(float a, float b) {
@@ -22,6 +25,17 @@ public class Utils {
         } else {
             return 0;
         }
+    }
+
+    public static Date convertStringToDate(String sDate, String format) {
+        Date date;
+        try {
+            date = new SimpleDateFormat(format, Locale.ENGLISH).parse(sDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            date = new Date();
+        }
+        return date;
     }
 
     public static String md5(String md5) {
@@ -48,6 +62,7 @@ public class Utils {
         NinePatch patch = new NinePatch(bmp, bmp.getNinePatchChunk(), null);
         patch.draw(canvas, rect);
     }
+
     public static Bitmap drawableToBitmap(int size, Drawable drawable) {
         Bitmap bitmap = null;
         if (drawable instanceof BitmapDrawable) {

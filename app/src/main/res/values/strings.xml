@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">GoHotel</string>
+    <string name="date_format_view" translatable="false">dd/MM/yyyy</string>
     <string name="service_not_available" translatable="false">service_not_available</string>
     <string name="invalid_lat_long_used" translatable="false">invalid_lat_long_used</string>
     <string name="no_address_found" translatable="false">no_address_found</string>
     <string name="address_found" translatable="false">address_found</string>
+    <string name="month_year_format_view" translatable="false">MM.yyyy</string>
+    <string name="sun">CN</string>
+    <string name="mon">T2</string>
+    <string name="tue">T3</string>
+    <string name="wed">T4</string>
+    <string name="thu">T5</string>
+    <string name="fri">T6</string>
+    <string name="sat">T7</string>
 
 </resources>
