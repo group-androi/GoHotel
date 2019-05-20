@@ -45,18 +45,17 @@
         <activity android:name=".activity.ChooseAreaActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SignUpActivity">
-
-        </activity>
-        <activity android:name=".activity.HotelDetailActivity">
-
-        </activity>
-        <activity android:name=".activity.ReservationActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity android:name=".activity.HotelDetailActivity">
+
+        </activity>
+        <activity android:name=".activity.ReservationActivity"></activity>
     </application>
 
 </manifest>

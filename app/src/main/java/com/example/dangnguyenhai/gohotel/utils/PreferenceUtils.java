@@ -30,4 +30,24 @@ public class PreferenceUtils {
         editor.putString("LONG_LOCATION", strLocation);
         editor.apply();
     }
+
+    public static void setToken(Context context, String token) {
+        final SharedPreferences prefs = context.getSharedPreferences(HOTEL_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("token", token);
+        editor.apply();
+    }
+
+    public static String getToken(Context context) {
+        try {
+            final SharedPreferences prefs = context.getSharedPreferences(HOTEL_PREFERENCE, Context.MODE_PRIVATE);
+            if (prefs != null) {
+                return prefs.getString("token", "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

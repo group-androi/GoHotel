@@ -55,8 +55,8 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/box_qa_white_bg"
                 android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp">
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
 
                 <!--Email-->
                 <RelativeLayout
@@ -68,12 +68,12 @@
                         android:id="@+id/input_layout_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:hint="Số điện thoại">
 
                         <EditText
-                            android:id="@+id/tvPhone"
+                            android:id="@+id/edtPhone"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:imeOptions="actionNext"
@@ -107,12 +107,12 @@
                         android:id="@+id/input_layout_mail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:hint="Email">
 
                         <EditText
-                            android:id="@+id/txtEmail"
+                            android:id="@+id/edtEmail"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:imeOptions="actionNext"
@@ -136,14 +136,51 @@
 
                 </RelativeLayout>
 
+                <EditText
+                    android:id="@+id/edtBirthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14dp" />
 
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rdNam"
+                        android:checked="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nam"
+                        android:textSize="13dp" />
+
+                    <RadioButton
+                        android:id="@+id/rdNu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nữ"
+                        android:textSize="13dp" />
+
+                </RadioGroup>
                 <!--Password-->
                 <RelativeLayout
                     android:layout_width="match_parent"
 
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@color/colorWhite">
 
                     <android.support.design.widget.TextInputLayout
@@ -153,7 +190,7 @@
                         android:hint="Mật khẩu">
 
                         <EditText
-                            android:id="@+id/txtPassword"
+                            android:id="@+id/edtPassword"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:imeOptions="actionNext"
@@ -181,8 +218,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@color/colorWhite">
 
                     <android.support.design.widget.TextInputLayout
@@ -192,7 +229,7 @@
                         android:hint="Nhắc lại mật khẩu">
 
                         <EditText
-                            android:id="@+id/txtConfirmPassword"
+                            android:id="@+id/edtConfirmPassword"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:imeOptions="actionDone"
@@ -229,18 +266,18 @@
             </LinearLayout>
 
             <!--Button Next-->
-            <TextView
-                android:id="@+id/btnNext"
+            <Button
+                android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginRight="100dp"
                 android:background="@drawable/btn_login_selector"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Tiếp tục"
+                android:text="Đăng ký"
                 android:textColor="@color/login_text_selector"
                 android:textSize="18dp"
                 android:textStyle="bold" />

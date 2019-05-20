@@ -1,18 +1,19 @@
 package com.example.dangnguyenhai.gohotel.model.api;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ResponseUserCreate {
 
+    @SerializedName("message")
+    @Expose
     private String message;
+    @SerializedName("result")
+    @Expose
+    private Integer result;
+    @SerializedName("token")
+    @Expose
     private String token;
-    private int result;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     public String getMessage() {
         return message;
@@ -22,11 +23,19 @@ public class ResponseUserCreate {
         this.message = message;
     }
 
-    public int getResult() {
+    public Integer getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(Integer result) {
         this.result = result;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

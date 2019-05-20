@@ -13,14 +13,14 @@
         android:background="@drawable/circle_clicked_bg"
         android:visibility="gone" />
 
-    <com.appromobile.hotel.widgets.TextViewSFRegular
+    <TextView
         android:id="@+id/tvDay"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:text="2"
-        android:textColor="@color/bk"
+        android:textColor="@color/colorBlack"
         android:textSize="15dp" />
 
 </RelativeLayout>
