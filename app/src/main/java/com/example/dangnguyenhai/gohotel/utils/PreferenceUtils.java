@@ -50,4 +50,23 @@ public class PreferenceUtils {
         return "";
     }
 
+    public static void setUserInfo(Context context, String userInfo) {
+        final SharedPreferences prefs = context.getSharedPreferences(HOTEL_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("userInfo", userInfo);
+        editor.apply();
+    }
+
+    public static String getUserInfo(Context context) {
+        try {
+            final SharedPreferences prefs = context.getSharedPreferences(HOTEL_PREFERENCE, Context.MODE_PRIVATE);
+            if (prefs != null) {
+                return prefs.getString("userInfo", "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

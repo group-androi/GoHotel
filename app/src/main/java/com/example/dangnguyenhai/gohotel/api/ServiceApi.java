@@ -1,6 +1,7 @@
 package com.example.dangnguyenhai.gohotel.api;
 
 import com.example.dangnguyenhai.gohotel.model.api.ResponseUserCreate;
+import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -20,4 +21,8 @@ public interface ServiceApi {
     @POST("/API_GoHotel/user/checkEqualPhone.php")
     @FormUrlEncoded
     Call<ResponseUserCreate> checkEqualPhone(@Field("phone") String phone, @Header("token") String token);
+
+    @POST("/API_GoHotel/user/login.php")
+    @FormUrlEncoded
+    Call<UserInfo> login(@Field("phone") String phone, @Field("password") String pasword);
 }
