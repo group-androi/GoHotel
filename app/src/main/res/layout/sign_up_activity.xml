@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:hint="Số điện thoại">
+                        android:hint="Số điện thoại*">
 
                         <EditText
                             android:id="@+id/edtPhone"
@@ -104,12 +104,12 @@
                     android:background="@color/colorWhite">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_mail"
+                        android:id="@+id/inputLayoutMail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:hint="Email">
+                        android:hint="Email*">
 
                         <EditText
                             android:id="@+id/edtEmail"
@@ -136,19 +136,25 @@
 
                 </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/edtBirthday"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textSize="14dp" />
+                    android:hint="Ngày sinh">
+
+                    <EditText
+                        android:id="@+id/edtBirthday"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+                </android.support.design.widget.TextInputLayout>
 
                 <RadioGroup
                     android:layout_width="match_parent"
@@ -160,9 +166,9 @@
 
                     <RadioButton
                         android:id="@+id/rdNam"
-                        android:checked="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:text="Nam"
                         android:textSize="13dp" />
 
@@ -187,7 +193,7 @@
                         android:id="@+id/input_layout_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Mật khẩu">
+                        android:hint="Mật khẩu*">
 
                         <EditText
                             android:id="@+id/edtPassword"
@@ -226,7 +232,7 @@
                         android:id="@+id/input_layout_confirm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nhắc lại mật khẩu">
+                        android:hint="Nhắc lại mật khẩu*">
 
                         <EditText
                             android:id="@+id/edtConfirmPassword"

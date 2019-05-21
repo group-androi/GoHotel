@@ -13,5 +13,11 @@
     <string name="thu">T5</string>
     <string name="fri">T6</string>
     <string name="sat">T7</string>
-
+    <string name="default_birthday">01/01/1950</string>
+    <string name="date_picker_increment_day_button">Increment day</string>
+    <string name="date_picker_decrement_day_button">Decrement day</string>
+    <string name="date_picker_increment_month_button">Increment month</string>
+    <string name="date_picker_decrement_month_button">Decrement month</string>
+    <string name="date_picker_increment_year_button">Increment year</string>
+    <string name="date_picker_decrement_year_button">Decrement year</string>
 </resources>

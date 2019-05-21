@@ -3,6 +3,7 @@ package com.example.dangnguyenhai.gohotel.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,10 @@ import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.model.api.ResponseUserCreate;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
+import com.example.dangnguyenhai.gohotel.utils.UtilityValidate;
+import com.example.dangnguyenhai.gohotel.widgets.dialog.DateTimeDialogUtils;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText edtPhone, edtEmail, edtPassword, edtConfirmPassword, edtBirthday;
     RadioButton rdNam, rdNu;
     Button btnRegister;
+    TextInputLayout inputLayoutMail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,20 +47,45 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void addViews() {
+        inputLayoutMail = findViewById(R.id.inputLayoutMail);
         edtPhone = findViewById(R.id.edtPhone);
+        edtPhone.setOnFocusChangeListener((view, hasFocus) -> {
+            if (!hasFocus) {
+
+            }
+        });
         edtEmail = findViewById(R.id.edtEmail);
+        edtEmail.setOnFocusChangeListener((view, hasFocus) -> {
+            if (!hasFocus) {
+                if (!UtilityValidate.isEmailValid(edtEmail.getText().toString())) {
+                    inputLayoutMail.setError("Định dạng email không hợp lệ");
+                    inputLayoutMail.setErrorEnabled(true);
+                } else {
+                    inputLayoutMail.setError("");
+                    inputLayoutMail.setErrorEnabled(false);
+                }
+            }
+        });
+
         edtPassword = findViewById(R.id.edtPassword);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         edtBirthday = findViewById(R.id.edtBirthday);
+        edtBirthday.setOnClickListener(view -> {
+            Calendar minYear = Calendar.getInstance();
+            minYear.set(Calendar.YEAR, 1950);
+
+            Calendar maxYear = Calendar.getInstance();
+            maxYear.set(Calendar.YEAR, maxYear.get(Calendar.YEAR) - 18);
+            DateTimeDialogUtils.showDatePickerDialog(SignUpActivity.this, edtBirthday, minYear, maxYear);
+        });
         rdNam = findViewById(R.id.rdNam);
         rdNu = findViewById(R.id.rdNu);
         btnRegister = findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerUser(SignUpActivity.this);
-            }
-        });
+        btnRegister.setOnClickListener(view -> registerUser(SignUpActivity.this));
+    }
+
+    private void checkPhoneAlready() {
+
     }
 
     private void registerUser(Context context) {
