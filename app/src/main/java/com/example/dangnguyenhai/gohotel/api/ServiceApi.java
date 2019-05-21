@@ -16,4 +16,8 @@ public interface ServiceApi {
     Call<ResponseUserCreate> updateUserReview(@Field("phone") String phone, @Field("password") String password
             , @Field("birthday") String birthday, @Field("gender") String gender, @Field("device_id") String device_id
             , @Header("token") String token);
+
+    @POST("/API_GoHotel/user/checkEqualPhone.php")
+    @FormUrlEncoded
+    Call<ResponseUserCreate> checkEqualPhone(@Field("phone") String phone, @Header("token") String token);
 }
