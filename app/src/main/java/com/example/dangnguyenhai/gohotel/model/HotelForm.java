@@ -1,5 +1,7 @@
 package com.example.dangnguyenhai.gohotel.model;
 
+import android.content.Intent;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -33,7 +35,7 @@ public class HotelForm {
     private String nameImage;
     @SerializedName("hotel_id")
     @Expose
-    private String hotelId;
+    private int hotelId;
     @SerializedName("room_id")
     @Expose
     private Object roomId;
@@ -115,11 +117,11 @@ public class HotelForm {
         this.nameImage = nameImage;
     }
 
-    public String getHotelId() {
+    public int getHotelId() {
         return hotelId;
     }
 
-    public void setHotelId(String hotelId) {
+    public void setHotelId(int hotelId) {
         this.hotelId = hotelId;
     }
 

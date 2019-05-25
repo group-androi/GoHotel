@@ -22,6 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <service
+            android:name=".gps.GeoCodeService"
+            android:exported="false" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -35,7 +39,11 @@
             android:value="AIzaSyCbBx8Rh2keRSUE85TsuiC5xaODRYoeyl8" />
 
         <activity android:name=".activity.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SearchActivity" />
@@ -43,11 +51,7 @@
 
         </activity>
         <activity android:name=".activity.ChooseAreaActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity" >
 

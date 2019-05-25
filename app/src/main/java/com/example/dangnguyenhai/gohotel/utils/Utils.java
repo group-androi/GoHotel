@@ -27,6 +27,11 @@ public class Utils {
         }
     }
 
+    public static String formatCurrencyK(int price) {
+        price /= 1000;
+        return String.valueOf(price) + "K";
+    }
+
     public static Date convertStringToDate(String sDate, String format) {
         Date date;
         try {

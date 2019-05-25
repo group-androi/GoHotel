@@ -31,6 +31,8 @@ public interface ServiceApi {
     @FormUrlEncoded
     Call<UserInfo> login(@Field("phone") String phone, @Field("password") String pasword);
 
+
+
     @GET("/API_GoHotel/city/get.php")
     Call<List<CityForm>> getCity();
 
@@ -40,4 +42,9 @@ public interface ServiceApi {
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
     Call<List<HotelForm>> getHotelHome(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("limitfrom") int limitfrom, @Field("limitcount") int limitcount);
+
+    @POST("/API_GoHotel/hotel/getHotelMap.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelMap(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("radius") double radius);
+
 }
