@@ -1,7 +1,10 @@
 package com.example.dangnguyenhai.gohotel.api;
 
+import com.example.dangnguyenhai.gohotel.model.HotelForm;
 import com.example.dangnguyenhai.gohotel.model.api.ResponseUserCreate;
 import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -25,4 +28,8 @@ public interface ServiceApi {
     @POST("/API_GoHotel/user/login.php")
     @FormUrlEncoded
     Call<UserInfo> login(@Field("phone") String phone, @Field("password") String pasword);
+
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHome(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("limitfrom") int limitfrom, @Field("limitcount") int limitcount);
 }

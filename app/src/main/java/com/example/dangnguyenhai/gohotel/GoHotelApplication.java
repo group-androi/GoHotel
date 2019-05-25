@@ -23,6 +23,7 @@ public class GoHotelApplication extends Application {
     public static Context context;
     public Retrofit retrofit;
     public static ServiceApi serviceApi;
+    public static int limit = 50;
 
     @Override
     public void onCreate() {
