@@ -35,18 +35,20 @@
             android:value="AIzaSyCbBx8Rh2keRSUE85TsuiC5xaODRYoeyl8" />
 
         <activity android:name=".activity.SplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SortFilterActivity">
 
         </activity>
-        <activity android:name=".activity.ChooseAreaActivity" />
+        <activity android:name=".activity.ChooseAreaActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.LoginActivity" >
 
 

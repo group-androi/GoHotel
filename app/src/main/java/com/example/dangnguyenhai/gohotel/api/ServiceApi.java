@@ -1,6 +1,7 @@
 package com.example.dangnguyenhai.gohotel.api;
 
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
+import com.example.dangnguyenhai.gohotel.model.api.CityForm;
 import com.example.dangnguyenhai.gohotel.model.api.ResponseUserCreate;
 import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -28,6 +30,12 @@ public interface ServiceApi {
     @POST("/API_GoHotel/user/login.php")
     @FormUrlEncoded
     Call<UserInfo> login(@Field("phone") String phone, @Field("password") String pasword);
+
+    @GET("/API_GoHotel/city/get.php")
+    Call<List<CityForm>> getCity();
+
+    @GET("/API_GoHotel/district/accordingToCityId.php")
+    Call<List<CityForm>> accordingToCityId();
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
