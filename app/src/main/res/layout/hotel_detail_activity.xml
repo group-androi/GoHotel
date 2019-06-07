@@ -56,7 +56,7 @@
                         android:background="@drawable/bg_tranf_black_85_16dp"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="2/24"
+                        android:text="0/0"
                         android:textColor="@color/colorWhite" />
                 </FrameLayout>
 
@@ -68,6 +68,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvHotelName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -112,6 +113,7 @@
                             android:src="@drawable/map_selected" />
 
                         <TextView
+                            android:id="@+id/tvAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"

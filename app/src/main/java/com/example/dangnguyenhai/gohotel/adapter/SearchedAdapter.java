@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.model.SearchForm;
@@ -14,9 +15,13 @@ import java.util.List;
 
 public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.ViewHolder> {
     private Context context;
+    private List<SearchForm> searchForms;
+    private OnclickListener onclickListener;
 
-    public SearchedAdapter(Context context, List<SearchForm> searchForms) {
+    public SearchedAdapter(Context context, List<SearchForm> searchForms, OnclickListener onclickListener) {
         this.context = context;
+        this.searchForms = searchForms;
+        this.onclickListener = onclickListener;
     }
 
     @NonNull
@@ -29,17 +34,30 @@ public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.tvText.setText(searchForms.get(position).getKey());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onclickListener.onClick(searchForms.get(position).getKey());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return searchForms.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvText;
+
         public ViewHolder(View itemView) {
             super(itemView);
+            tvText = itemView.findViewById(R.id.tvText);
         }
+    }
+
+    public interface OnclickListener {
+        void onClick(String key);
     }
 }

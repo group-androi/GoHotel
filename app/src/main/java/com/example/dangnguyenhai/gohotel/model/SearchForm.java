@@ -1,23 +1,19 @@
 package com.example.dangnguyenhai.gohotel.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class SearchForm {
 
-    private String nameHotel;
-    private String addressHotel;
+    @SerializedName("key")
+    @Expose
+    private String key;
 
-    public String getNameHotel() {
-        return nameHotel;
+    public String getKey() {
+        return key;
     }
 
-    public void setNameHotel(String nameHotel) {
-        this.nameHotel = nameHotel;
-    }
-
-    public String getAddressHotel() {
-        return addressHotel;
-    }
-
-    public void setAddressHotel(String addressHotel) {
-        this.addressHotel = addressHotel;
+    public void setKey(String key) {
+        this.key = key;
     }
 }

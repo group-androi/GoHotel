@@ -6,19 +6,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.R;
-import com.example.dangnguyenhai.gohotel.model.SearchForm;
+import com.example.dangnguyenhai.gohotel.model.HotelForm;
 
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private Context context;
-    private List<SearchForm> searchFormList;
+    private List<HotelForm> hotelForms;
 
-    public SearchAdapter(Context context, List<SearchForm> searchFormList) {
+    public SearchAdapter(Context context, List<HotelForm> hotelForms) {
         this.context = context;
-        this.searchFormList = searchFormList;
+        this.hotelForms = hotelForms;
     }
 
     @NonNull
@@ -31,17 +32,25 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        HotelForm hotelForm = hotelForms.get(position);
+        holder.tvHotelName.setText(hotelForm.getNameHotel());
+        holder.tvAddress.setText(hotelForm.getAddress());
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        if (hotelForms == null) return 0;
+        return hotelForms.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvHotelName, tvAddress;
+
         public ViewHolder(View itemView) {
             super(itemView);
+            tvHotelName = itemView.findViewById(R.id.tvHotelName);
+            tvAddress = itemView.findViewById(R.id.tvAddress);
+
         }
     }
 }

@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
@@ -23,10 +21,12 @@ import java.util.List;
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> {
     private Context context;
     private List<HotelForm> hotelForms;
+    private HotelAdapterCallback hotelAdapterCallback;
 
-    public HotelAdapter(Context context, List<HotelForm> hotelForms) {
+    public HotelAdapter(Context context, List<HotelForm> hotelForms, HotelAdapterCallback hotelAdapterCallback) {
         this.context = context;
         this.hotelForms = hotelForms;
+        this.hotelAdapterCallback = hotelAdapterCallback;
     }
 
     @NonNull
@@ -39,15 +39,19 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        HotelForm hotelForm=hotelForms.get(position);
+        HotelForm hotelForm = hotelForms.get(position);
         holder.tvHotelName.setText(hotelForm.getNameHotel());
         holder.tvAddress.setText(hotelForm.getAddress());
-        holder.tvPriceDiscount.setText(Utils.formatCurrency(hotelForm.getPriceRoomPerDay())+" đồng");
+        holder.tvPriceDiscount.setText(Utils.formatCurrency(hotelForm.getPriceRoomPerDay()) + " đồng");
         RequestOptions requestOptions = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.loading_big)
                 .error(R.drawable.loading_big);
         Glide.with(context).load(hotelForm.getNameImage()).apply(requestOptions).into(holder.imgHotel);
+        holder.tvReview.setText(String.valueOf(hotelForm.getCountStar()));
+        holder.tvCheckIn.setText(String.format("Giờ check-in ngày: từ %sh", hotelForm.getCheckIn()));
+        holder.tvCheckOut.setText(String.format("Giờ check-out ngày: cho đến %sh", hotelForm.getCheckOut()));
+        holder.itemView.setOnClickListener(view -> hotelAdapterCallback.onItemClick(hotelForm));
     }
 
     @Override
@@ -57,15 +61,23 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgHotel;
-        TextView tvHotelName,tvAddress,tvPrice,tvPriceDiscount;
+        TextView tvHotelName, tvAddress, tvPrice, tvPriceDiscount;
+        TextView tvReview, tvCheckIn, tvCheckOut;
 
         ViewHolder(View itemView) {
             super(itemView);
+            tvCheckOut = itemView.findViewById(R.id.tvCheckOut);
+            tvCheckIn = itemView.findViewById(R.id.tvCheckIn);
+            tvReview = itemView.findViewById(R.id.tvReview);
             imgHotel = itemView.findViewById(R.id.imgHotel);
             tvHotelName = itemView.findViewById(R.id.tvHotelName);
-            tvAddress=itemView.findViewById(R.id.tvAddress);
-            tvPrice=itemView.findViewById(R.id.tvPrice);
-            tvPriceDiscount=itemView.findViewById(R.id.tvPriceDiscount);
+            tvAddress = itemView.findViewById(R.id.tvAddress);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvPriceDiscount = itemView.findViewById(R.id.tvPriceDiscount);
         }
+    }
+
+    public interface HotelAdapterCallback {
+        void onItemClick(HotelForm hotelForm);
     }
 }

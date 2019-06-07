@@ -1,28 +1,72 @@
 package com.example.dangnguyenhai.gohotel.activity;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.adapter.ChooseRoomTypeListAdapter;
+import com.example.dangnguyenhai.gohotel.model.HotelForm;
+import com.example.dangnguyenhai.gohotel.model.api.BookRes;
+import com.example.dangnguyenhai.gohotel.model.api.HotelImageForm;
+import com.example.dangnguyenhai.gohotel.model.api.RoomTypeForm;
+import com.example.dangnguyenhai.gohotel.utils.AppTimeUtils;
+import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
+import com.example.dangnguyenhai.gohotel.utils.Utils;
+import com.example.dangnguyenhai.gohotel.widgets.Calendar.CalendarChooseDate;
+import com.example.dangnguyenhai.gohotel.widgets.Calendar.CallbackResulCalendar;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-public class ReservationActivity extends AppCompatActivity {
+public class ReservationActivity extends AppCompatActivity implements ChooseRoomTypeListAdapter.CallbackRoomTypeList {
 
     ImageView imgHotel, imgRoom;
     private int width;
     private int height;
+    private int hotelId;
+    private int roomId;
+    private List<RoomTypeForm> roomTypeForms;
+    private RequestOptions options;
+    private TextView tvRoomName, tvHotelFee, tvStartDate, tvEndDate, tvCheckOut, tvCheckIn, tvHotelName;
+    private String startDate, endDate;
+    private int hotelFee;
+    private RecyclerView rcvListRoom;
+    private int roomtypeIndex;
+    private LinearLayout layoutBkTranfer, bottomsheet, btnChooseRoom, btnStartDate, btnEndDate;
+    private Button btnBook;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,27 +83,280 @@ public class ReservationActivity extends AppCompatActivity {
         width = size.x;
         height = size.y;
 
-
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            hotelId = bundle.getInt("hotelId", 0);
+            roomId = bundle.getInt("roomId", 0);
+        }
+        btnBook = findViewById(R.id.btnBook);
+        btnBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bookRoom();
+            }
+        });
+        tvHotelName = findViewById(R.id.tvHotelName);
+        tvCheckIn = findViewById(R.id.tvCheckIn);
+        tvCheckOut = findViewById(R.id.tvCheckOut);
+        startDate = AppTimeUtils.getSystemDay(new SimpleDateFormat(AppTimeUtils.ddMMyyyy2));
+        endDate = AppTimeUtils.getTomorrowDay(new SimpleDateFormat(AppTimeUtils.ddMMyyyy2));
+        tvStartDate = findViewById(R.id.tvStartDate);
+        tvStartDate.setText(startDate);
+        tvEndDate = findViewById(R.id.tvEndDate);
+        tvEndDate.setText(endDate);
+        rcvListRoom = findViewById(R.id.rcvListRoom);
+        tvRoomName = findViewById(R.id.tvRoomName);
         imgHotel = findViewById(R.id.imgHotel);
         imgRoom = findViewById(R.id.imgRoom);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height / 2);
         imgHotel.setLayoutParams(layoutParams);
+        tvHotelFee = findViewById(R.id.tvHotelFee);
+        layoutBkTranfer = findViewById(R.id.layoutBkTranfer);
+        bottomsheet = findViewById(R.id.bottom_sheet);
+        btnChooseRoom = findViewById(R.id.btnChooseRoom);
+        btnStartDate = findViewById(R.id.btnStartDate);
+        btnStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarChooseDate.getInstance().show(ReservationActivity.this, startDate, endDate, false, new CallbackResulCalendar() {
+                    @Override
+                    public void CallbackResult(String dateFrom, String dateTo) {
+                        tvStartDate.setText(startDate);
+                        tvEndDate.setText(endDate);
+                        startDate = dateFrom;
+                        endDate = dateTo;
+                    }
+                });
+            }
+        });
+        btnEndDate = findViewById(R.id.btnEndDate);
+        btnEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarChooseDate.getInstance().show(ReservationActivity.this, startDate, endDate, false, new CallbackResulCalendar() {
+                    @Override
+                    public void CallbackResult(String dateFrom, String dateTo) {
+                        tvStartDate.setText(startDate);
+                        tvEndDate.setText(endDate);
+                        startDate = dateFrom;
+                        endDate = dateTo;
+                    }
+                });
+            }
+        });
+        btnChooseRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                visibleBottomRoomType(View.VISIBLE);
 
-        RequestOptions requestOptions = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.loading_big)
-                .error(R.drawable.loading_big);
-        Glide.with(this)
-                .load(R.drawable.bananahotel)
-                .apply(requestOptions)
-                .transition(withCrossFade())
-                .into(imgHotel);
-
-        RequestOptions options = new RequestOptions()
+            }
+        });
+        layoutBkTranfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                visibleBottomRoomType(View.GONE);
+            }
+        });
+        options = new RequestOptions()
                 .placeholder(R.drawable.loading_big)
                 .diskCacheStrategy(DiskCacheStrategy.ALL).circleCrop();
 
-         Glide.with(this)
-                .load(R.drawable.bananahotel).apply(options).into(imgRoom);
+        gethotelDetail();
+        getImageHotel();
+        getRoomHotel();
+
+
+    }
+
+    private void gethotelDetail() {
+        GoHotelApplication.serviceApi.getHotelDetail(hotelId).enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleDataHotel(hotelForms.get(0));
+                    }
+                } else {
+                    Toast.makeText(ReservationActivity.this, "Không thể lấy thông tin khách sạn", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void handleDataHotel(HotelForm hotelForm) {
+        tvHotelName.setText(hotelForm.getNameHotel());
+        tvCheckIn.setText(hotelForm.getCheckIn() + ":00");
+        tvCheckOut.setText(hotelForm.getCheckOut() + ":00");
+    }
+
+
+    private void initRcvRoom() {
+        rcvListRoom.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        rcvListRoom.setHasFixedSize(true);
+        if (roomTypeForms != null && roomTypeForms.size() != 0) {
+            ChooseRoomTypeListAdapter roomTypeListAdapter = new ChooseRoomTypeListAdapter(this, roomTypeForms, this);
+            rcvListRoom.setAdapter(roomTypeListAdapter);
+            roomTypeListAdapter.notifyDataSetChanged();
+            if (roomTypeListAdapter != null) {
+                roomTypeListAdapter.updatePotitionChoose(roomtypeIndex);
+            }
+        }
+    }
+
+    private void getRoomHotel() {
+        GoHotelApplication.serviceApi.getRoomTypeHotel(hotelId).enqueue(new Callback<List<RoomTypeForm>>() {
+            @Override
+            public void onResponse(Call<List<RoomTypeForm>> call, Response<List<RoomTypeForm>> response) {
+                if (response.code() == 200) {
+                    List<RoomTypeForm> roomTypeForms = response.body();
+                    if (roomTypeForms != null && roomTypeForms.size() > 0) {
+                        handleRoomTypeHotel(roomTypeForms);
+                        initRcvRoom();
+                    }
+                } else {
+                    Toast.makeText(ReservationActivity.this, "Không thể lấy danh sách phòng", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RoomTypeForm>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void handleRoomTypeHotel(List<RoomTypeForm> roomTypeForms) {
+        this.roomTypeForms = roomTypeForms;
+        for (RoomTypeForm roomTypeForm : roomTypeForms) {
+            if (roomTypeForm.getId() == roomId) {
+                Glide.with(this)
+                        .load(R.drawable.bananahotel).apply(options).into(imgRoom);
+                tvRoomName.setText(roomTypeForm.getName());
+                tvHotelFee.setText(String.format("%s VND", Utils.formatCurrency(roomTypeForm.getPricePerDay())));
+                hotelFee = roomTypeForm.getPricePerDay();
+            }
+
+        }
+    }
+
+    private void getImageHotel() {
+        GoHotelApplication.serviceApi.getImageHotel(hotelId).enqueue(new Callback<List<HotelImageForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelImageForm>> call, Response<List<HotelImageForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelImageForm> hotelImageForms = response.body();
+                    if (hotelImageForms != null && hotelImageForms.size() > 0) {
+                        RequestOptions requestOptions = new RequestOptions()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .placeholder(R.drawable.loading_big)
+                                .error(R.drawable.loading_big);
+                        Glide.with(ReservationActivity.this)
+                                .load(hotelImageForms.get(0).getNameImage())
+                                .apply(requestOptions)
+                                .transition(withCrossFade())
+                                .into(imgHotel);
+                    }
+                } else {
+                    Toast.makeText(ReservationActivity.this, "Không thể lấy hình khách sạn", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelImageForm>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void bookRoom() {
+        String timeBook = AppTimeUtils.getSystemDay(new SimpleDateFormat(AppTimeUtils.yyyyMMddHHmmss));
+        GoHotelApplication.serviceApi.bookRoom(hotelId, roomId, AppTimeUtils.changeDateUpToServer(startDate), AppTimeUtils.changeDateUpToServer(endDate), hotelFee, timeBook, "0778204451", "", PreferenceUtils.getToken(this)).enqueue(new Callback<BookRes>() {
+            @Override
+            public void onResponse(Call<BookRes> call, Response<BookRes> response) {
+                if (response.code() == 200) {
+                    BookRes bookRes = response.body();
+                    if (bookRes.getResult() != 0) {
+                        showDialogReservationSuccessful(ReservationActivity.this, new DialogCallback() {
+                            @Override
+                            public void finished() {
+                                gotoBookingDetail(bookRes.getResult());
+                                finish();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(ReservationActivity.this, bookRes.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(ReservationActivity.this, "Đặt phòng không thành công", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookRes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void gotoBookingDetail(int result) {
+        Intent intent = new Intent(ReservationActivity.this, BookingDetail.class);
+        intent.putExtra("BookingID", result);
+        startActivity(intent);
+    }
+
+    @Override
+    public void resultRoomType(RoomTypeForm roomTypeForm, int potition) {
+        this.roomId = roomTypeForm.getId();
+        this.roomtypeIndex = potition;
+        handleRoomTypeHotel(roomTypeForms);
+        visibleBottomRoomType(View.GONE);
+    }
+
+    private void visibleBottomRoomType(int visible) {
+        if (visible == View.VISIBLE) {
+            Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+            layoutBkTranfer.setVisibility(View.VISIBLE);
+            bottomsheet.startAnimation(slideUp);
+            bottomsheet.setVisibility(View.VISIBLE);
+        } else {
+            Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+            layoutBkTranfer.setVisibility(View.GONE);
+            bottomsheet.startAnimation(slideUp);
+            bottomsheet.setVisibility(View.GONE);
+        }
+    }
+
+    public static void showDialogReservationSuccessful(Context context, final DialogCallback dialogCallback) {
+        if (context instanceof Activity && !((Activity) context).isFinishing()) {
+            final Dialog dialog = new Dialog(context, R.style.dialog_full_transparent_background);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.booking_successful_dialog);
+            Window window = dialog.getWindow();
+            if (window != null) {
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.CENTER;
+                window.setAttributes(wlp);
+                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                dialog.setCancelable(false);
+                dialog.show();
+            }
+
+
+            TextView btnUnderstand = dialog.findViewById(R.id.btnUnderstand);
+            btnUnderstand.setOnClickListener(v -> {
+                dialogCallback.finished();
+                dialog.dismiss();
+            });
+        }
+    }
+
+    public interface DialogCallback {
+        void finished();
     }
 }

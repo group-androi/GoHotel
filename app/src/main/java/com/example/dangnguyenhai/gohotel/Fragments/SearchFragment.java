@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.activity.SearchActivity;
 import com.example.dangnguyenhai.gohotel.adapter.SearchedAdapter;
@@ -22,11 +23,16 @@ import com.google.android.flexbox.JustifyContent;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SearchFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rcvSearchedHotel;
     private LinearLayout btnSearch;
     private Context context;
     private List<SearchForm> searchForms;
+
     public static SearchFragment newInstance() {
         SearchFragment myFragment = new SearchFragment();
 
@@ -53,7 +59,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         rcvSearchedHotel.setLayoutManager(layoutManager);
-        rcvSearchedHotel.setAdapter(new SearchedAdapter(context,searchForms));
+        getKeyWord();
         return rootView;
     }
 
@@ -61,13 +67,44 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSearch:
-                gotoSearch();
+                gotoSearch("");
                 break;
         }
     }
 
-    private void gotoSearch() {
+    private void gotoSearch(String key) {
         Intent intent = new Intent(context, SearchActivity.class);
+        if (key != null && !key.isEmpty())
+            intent.putExtra("keyWord", key);
         startActivity(intent);
+    }
+
+    private void getKeyWord() {
+        GoHotelApplication.serviceApi.getKeySearch().enqueue(new Callback<List<SearchForm>>() {
+            @Override
+            public void onResponse(Call<List<SearchForm>> call, Response<List<SearchForm>> response) {
+                if (response.code() == 200) {
+                    searchForms = response.body();
+                    if (searchForms != null && searchForms.size() > 0) {
+                        handleSearch();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SearchForm>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void handleSearch() {
+        rcvSearchedHotel.setAdapter(new SearchedAdapter(context, searchForms, new SearchedAdapter.OnclickListener() {
+            @Override
+            public void onClick(String key) {
+                gotoSearch(key);
+            }
+        }));
+
     }
 }

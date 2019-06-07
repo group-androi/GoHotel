@@ -8,6 +8,7 @@ import android.graphics.NinePatch;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -93,5 +94,13 @@ public class Utils {
         DecimalFormat formatter = new DecimalFormat("#,###");
         currency = formatter.format(price);
         return currency;
+    }
+
+    public static float convertDpToPixel(float dp, Context context) {
+        if (context != null) {
+            return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        } else {
+            return 0;
+        }
     }
 }

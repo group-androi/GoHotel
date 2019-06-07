@@ -1,8 +1,14 @@
 package com.example.dangnguyenhai.gohotel.api;
 
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
+import com.example.dangnguyenhai.gohotel.model.SearchForm;
+import com.example.dangnguyenhai.gohotel.model.api.BookRes;
+import com.example.dangnguyenhai.gohotel.model.api.BookingUserForm;
 import com.example.dangnguyenhai.gohotel.model.api.CityForm;
+import com.example.dangnguyenhai.gohotel.model.api.DistrictForm;
+import com.example.dangnguyenhai.gohotel.model.api.HotelImageForm;
 import com.example.dangnguyenhai.gohotel.model.api.ResponseUserCreate;
+import com.example.dangnguyenhai.gohotel.model.api.RoomTypeForm;
 import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
 
 import java.util.List;
@@ -13,6 +19,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ServiceApi {
 
@@ -32,19 +39,98 @@ public interface ServiceApi {
     Call<UserInfo> login(@Field("phone") String phone, @Field("password") String pasword);
 
 
-
     @GET("/API_GoHotel/city/get.php")
     Call<List<CityForm>> getCity();
 
-    @GET("/API_GoHotel/district/accordingToCityId.php")
-    Call<List<CityForm>> accordingToCityId();
+    @POST("/API_GoHotel/district/accordingToCityId.php")
+    @FormUrlEncoded
+    Call<List<DistrictForm>> accordingToCityId(@Field("city_id") int city_id);
+
+    @GET("/API_GoHotel/hotel/search.php")
+    Call<List<HotelForm>> search(@Query("key") String key);
+
+    @GET("/API_GoHotel/hotel/get.php")
+    Call<List<HotelForm>> getHotelDetail(@Query("id") int id);
+
+    @GET("/API_GoHotel/room/get.php")
+    Call<List<RoomTypeForm>> getRoomTypeHotel(@Query("hotel") int id);
+
+    @POST("/API_GoHotel/image/get.php")
+    @FormUrlEncoded
+    Call<List<HotelImageForm>> getImageHotel(@Field("hotel") int hotel);
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
-    Call<List<HotelForm>> getHotelHome(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("limitfrom") int limitfrom, @Field("limitcount") int limitcount);
+    Call<List<HotelForm>> getHotelHomeDistance(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount, @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_distance") String sort_distance);
+
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHomeDistance(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount, @Field("city_id") int city_id
+            , @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_distance") String sort_distance);
+
+
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHomeStar(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount, @Field("city_id") int city_id
+            , @Field("district_id") int district_id, @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_star") String sort_star);
+
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHomeDistance(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount, @Field("city_id") int city_id
+            , @Field("district_id") int district_id, @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_distance") String sort_distance);
+
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHome(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount, @Field("city_id") int city_id
+            , @Field("district_id") int district_id, @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_price") String sort_price);
+
 
     @POST("/API_GoHotel/hotel/getHotelMap.php")
     @FormUrlEncoded
     Call<List<HotelForm>> getHotelMap(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("radius") double radius);
+
+    @POST("/API_GoHotel/hotel/getHotelMap.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelMap(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("radius") double radius, @Field("city_id") int city_id);
+
+    @POST("/API_GoHotel/hotel/getHotelMap.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelMap(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("radius") double radius, @Field("city_id") int city_id, @Field("district_id") int district_id);
+
+    @POST("/API_GoHotel/keyword/get.php")
+    Call<List<SearchForm>> getKeySearch();
+
+    @POST("/API_GoHotel/book/create.php")
+    @FormUrlEncoded
+    Call<BookRes> bookRoom(@Field("hotel_id") int hotel_id, @Field("room_id") int room_id, @Field("date_start") String date_start, @Field("date_end") String date_end, @Field("price") int price, @Field("time_book") String time_book, @Field("phone") String phone, @Field("info_user") String info_user,@Header("token") String token);
+
+    @POST("/API_GoHotel/book/get.php")
+    @FormUrlEncoded
+    Call<List<BookingUserForm>> getBookingDetail(@Field("id") int bookingId);
+
+
+
+    @POST("/API_GoHotel/book/getAccordingToToken.php")
+    Call<List<BookingUserForm>> getMyBooking(@Header("token") String token);
+
+    @POST("/API_GoHotel/book/update.php")
+    @FormUrlEncoded
+    Call<BookRes> updateBookingDetail(@Field("id") int bookingId,@Field("status") int status);
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.dangnguyenhai.gohotel.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 import com.example.dangnguyenhai.gohotel.Enums.TypeFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.HomeFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.MapFragment;
+import com.example.dangnguyenhai.gohotel.Fragments.MyPageFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.SearchFragment;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
+import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private HomeFragment homeFragment;
     private SearchFragment searchFragment;
     private MapFragment mapFragment;
+    private MyPageFragment myPageFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void changeTab(int potition) {
+    public void changeTab(int potition) {
 
         if (potition == TypeFragment.HOME.getType()) {
             imgHome.setImageResource(R.drawable.home_selected);
@@ -144,6 +149,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (searchFragment.isAdded()) {
                 ft.hide(searchFragment);
             }
+
+            if (myPageFragment == null) {
+                myPageFragment = MyPageFragment.newInstance();
+            }
+            if (myPageFragment.isAdded()) {
+                ft.hide(myPageFragment);
+            }
             // Commit changes
             ft.commit();
 
@@ -165,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (mapFragment.isAdded()) { // if the fragment is already in container
                 ft.show(mapFragment);
             } else { // fragment needs to be added to frame container
-                ft.add(R.id.frLayout, mapFragment, "homeFragment");
+                ft.add(R.id.frLayout, mapFragment, "mapFragment");
             }
             // Hide fragment B
             if (homeFragment == null) {
@@ -180,6 +192,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             if (searchFragment.isAdded()) {
                 ft.hide(searchFragment);
+            }
+
+            if (myPageFragment == null) {
+                myPageFragment = MyPageFragment.newInstance();
+            }
+            if (myPageFragment.isAdded()) {
+                ft.hide(myPageFragment);
             }
             // Commit changes
             ft.commit();
@@ -202,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (searchFragment.isAdded()) { // if the fragment is already in container
                 ft.show(searchFragment);
             } else { // fragment needs to be added to frame container
-                ft.add(R.id.frLayout, searchFragment, "homeFragment");
+                ft.add(R.id.frLayout, searchFragment, "searchFragment");
             }
             // Hide fragment B
             if (homeFragment == null) {
@@ -218,9 +237,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (mapFragment.isAdded()) {
                 ft.hide(mapFragment);
             }
+            if (myPageFragment == null) {
+                myPageFragment = MyPageFragment.newInstance();
+            }
+            if (myPageFragment.isAdded()) {
+                ft.hide(myPageFragment);
+            }
             // Commit changes
             ft.commit();
         } else {
+            if (PreferenceUtils.getToken(this).isEmpty()) {
+                gotoLogin();
+                return;
+            }
             imgHome.setImageResource(R.drawable.home);
             imgSearch.setImageResource(R.drawable.search);
             imgMap.setImageResource(R.drawable.map);
@@ -230,6 +259,87 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tvSearch.setTextColor(getResources().getColor(R.color.colorDefault));
             tvMap.setTextColor(getResources().getColor(R.color.colorDefault));
             tvAccount.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            if (myPageFragment == null) {
+                myPageFragment = MyPageFragment.newInstance();
+            }
+            if (myPageFragment.isAdded()) { // if the fragment is already in container
+                ft.show(myPageFragment);
+            } else { // fragment needs to be added to frame container
+                ft.add(R.id.frLayout, myPageFragment, "myPageFragment");
+            }
+            // Hide fragment B
+            if (homeFragment == null) {
+                homeFragment = HomeFragment.newInstance(address);
+            }
+            if (homeFragment.isAdded()) {
+                ft.hide(homeFragment);
+            }
+            // Hide fragment C
+            if (mapFragment == null) {
+                mapFragment = MapFragment.newInstance(address);
+            }
+            if (mapFragment.isAdded()) {
+                ft.hide(mapFragment);
+            }
+
+            if (searchFragment == null) {
+                searchFragment = SearchFragment.newInstance();
+            }
+            if (searchFragment.isAdded()) {
+                ft.hide(searchFragment);
+            }
+            // Commit changes
+            ft.commit();
+        }
+    }
+
+    private void gotoLogin() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivityForResult(intent, ParamConstants.REQUEST_MAIN_LOGIN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ParamConstants.REQUEST_CHOOSE_AREA_HOME:
+                if (RESULT_OK == resultCode) {
+                    if (data != null && data.getExtras() != null) {
+                        Bundle bundle = data.getExtras();
+                        int city = bundle.getInt("cityKey", -1);
+                        String cityName = bundle.getString("cityName", "");
+                        int district = bundle.getInt("districtKey", -1);
+                        String districtName = bundle.getString("districtName", "");
+                        if (city != -1 && !cityName.isEmpty() && district != -1 && !districtName.isEmpty())
+                            homeFragment.getHotelCityDistrict(city, district, districtName);
+                        else if (city != -1 && !cityName.isEmpty())
+                            homeFragment.getHotelCity(city, cityName);
+
+                    }
+                }
+                break;
+            case ParamConstants.REQUEST_CHOOSE_AREA_MAP:
+                if (RESULT_OK == resultCode) {
+                    if (data != null && data.getExtras() != null) {
+                        Bundle bundle = data.getExtras();
+                        int city = bundle.getInt("cityKey", -1);
+                        String cityName = bundle.getString("cityName", "");
+                        int district = bundle.getInt("districtKey", -1);
+                        String districtName = bundle.getString("districtName", "");
+                        if (city != -1 && !cityName.isEmpty() && district != -1 && !districtName.isEmpty())
+                            mapFragment.getHotelCityDistrict(city, district, districtName);
+                        else if (city != -1 && !cityName.isEmpty())
+                            mapFragment.getHotelCity(city, cityName);
+                    }
+                }
+                break;
+            case ParamConstants.REQUEST_MAIN_LOGIN:
+                if (RESULT_OK == resultCode) {
+                    changeTab(TypeFragment.MYPAGE.getType());
+                }
+
         }
     }
 }

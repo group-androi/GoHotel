@@ -1,17 +1,22 @@
 package com.example.dangnguyenhai.gohotel.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.adapter.DistrictAdapter;
 import com.example.dangnguyenhai.gohotel.adapter.ProvinceAdapter;
 import com.example.dangnguyenhai.gohotel.model.api.CityForm;
+import com.example.dangnguyenhai.gohotel.model.api.DistrictForm;
 
 import java.util.List;
 
@@ -22,6 +27,11 @@ import retrofit2.Response;
 public class ChooseAreaActivity extends AppCompatActivity {
 
     RecyclerView lvProvinces, lvHotelArea;
+    ProvinceAdapter provinceAdapter;
+    DistrictAdapter districtAdapter;
+    TextView btnApply;
+    private DistrictForm district;
+    private CityForm city;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,14 +68,52 @@ public class ChooseAreaActivity extends AppCompatActivity {
     }
 
     private void handleListCity(List<CityForm> cityForms) {
-        lvProvinces.setAdapter(new ProvinceAdapter(this, cityForms));
+        cityForms.get(0).setClicked(true);
+        city = cityForms.get(0);
+        provinceAdapter = new ProvinceAdapter(this, cityForms, cityForm -> {
+            getDistrict(cityForm.getKey());
+            provinceAdapter.notifyDataSetChanged();
+            city = cityForm;
+        });
+        lvProvinces.setAdapter(provinceAdapter);
+        getDistrict(cityForms.get(0).getKey());
     }
 
-    private void getDistrict(int provine){
+    private void handleListDistrict(List<DistrictForm> districtForms) {
+        districtAdapter = new DistrictAdapter(this, districtForms, new DistrictAdapter.OnItemClick() {
 
+            @Override
+            public void onClick(DistrictForm districtForm) {
+                district = districtForm;
+                districtAdapter.notifyDataSetChanged();
+            }
+        });
+        lvHotelArea.setAdapter(districtAdapter);
+    }
+
+    private void getDistrict(int provine) {
+        GoHotelApplication.serviceApi.accordingToCityId(provine).enqueue(new Callback<List<DistrictForm>>() {
+            @Override
+            public void onResponse(Call<List<DistrictForm>> call, Response<List<DistrictForm>> response) {
+                if (response.code() == 200) {
+                    List<DistrictForm> districtForms = response.body();
+                    if (districtForms != null && districtForms.size() > 0) {
+                        handleListDistrict(districtForms);
+                    }
+                } else {
+                    Toast.makeText(ChooseAreaActivity.this, "Không thể lấy danh sách thành phố", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DistrictForm>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void addview() {
+        btnApply = findViewById(R.id.btnApply);
         lvProvinces = findViewById(R.id.lvProvinces);
         lvProvinces.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         lvProvinces.setHasFixedSize(true);
@@ -73,5 +121,27 @@ public class ChooseAreaActivity extends AppCompatActivity {
         lvHotelArea = findViewById(R.id.lvHotelArea);
         lvHotelArea.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         lvHotelArea.setHasFixedSize(true);
+        btnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleApply();
+            }
+        });
     }
+
+    private void handleApply() {
+        Intent intent = new Intent();
+        if (city != null && city.isClicked()) {
+            intent.putExtra("cityName", city.getName());
+            intent.putExtra("cityKey", city.getKey());
+        }
+        if (district != null && district.isClicked()) {
+            intent.putExtra("districtName", district.getName());
+            intent.putExtra("districtKey", district.getKey());
+        }
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+
 }

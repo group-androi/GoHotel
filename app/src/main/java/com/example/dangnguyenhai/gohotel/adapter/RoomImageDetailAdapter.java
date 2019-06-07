@@ -8,18 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.model.api.HotelImageForm;
 
 import java.util.List;
 
 public class RoomImageDetailAdapter extends RecyclerView.Adapter<RoomImageDetailAdapter.ViewHolder> {
 
     private Context context;
-    //private List<HotelImageForm> hotelImageForms;
+    private List<HotelImageForm> hotelImageForms;
 
-    public RoomImageDetailAdapter(Context context, List<String> hotelImageForms) {
+    public RoomImageDetailAdapter(Context context, List<HotelImageForm> hotelImageForms) {
         this.context = context;
-        //this.hotelImageForms = hotelImageForms;
+        this.hotelImageForms = hotelImageForms;
     }
 
     @NonNull
@@ -32,24 +36,26 @@ public class RoomImageDetailAdapter extends RecyclerView.Adapter<RoomImageDetail
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        //final String url = UrlParams.MAIN_URL + "/hotelapi/hotel/download/downloadHotelImage?hotelImageSn=" + data.get(position).getSn() + "&fileName=" + data.get(position).getCustomizeName();
-//        String url = UrlParams.getInstance().url + "/hotelapi/hotel/download/downloadHotelImageViaKey?imageKey=" + hotelImageForms.get(position).getImageKey();
-//
-//        /*
-//        / Set Image Normal
-//        */
-//
-//        Glide.with(context)
-//                .load(url)
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .skipMemoryCache(true)
-//                .into(holder.imgViewNormal);
+
+        /*
+        / Set Image Normal
+        */
+
+        RequestOptions requestOptions = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.loading_big)
+                .error(R.drawable.loading_big).skipMemoryCache(true);
+
+        Glide.with(context)
+                .load(hotelImageForms.get(position).getNameImage())
+                .apply(requestOptions)
+                .into(holder.imgViewNormal);
 
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return hotelImageForms.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

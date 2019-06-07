@@ -62,6 +62,7 @@
                 android:src="@drawable/star" />
 
             <TextView
+                android:id="@+id/tvReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -105,6 +106,7 @@
             android:background="@color/colorDefault"></View>
 
         <TextView
+            android:id="@+id/tvCheckIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -116,6 +118,7 @@
             android:textSize="13dp" />
 
         <TextView
+            android:id="@+id/tvCheckOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

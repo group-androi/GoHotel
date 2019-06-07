@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class HotelForm {
     @SerializedName("id_hotel")
     @Expose
-    private String idHotel;
+    private int idHotel;
     @SerializedName("name_hotel")
     @Expose
     private String nameHotel;
@@ -30,24 +30,36 @@ public class HotelForm {
     @SerializedName("longitude")
     @Expose
     private String longitude;
-    @SerializedName("name_image")
+    @SerializedName("link_image")
     @Expose
-    private String nameImage;
+    private String linkImage;
     @SerializedName("hotel_id")
     @Expose
     private int hotelId;
     @SerializedName("room_id")
     @Expose
-    private Object roomId;
+    private int roomId;
     @SerializedName("distance")
     @Expose
     private String distance;
 
-    public String getIdHotel() {
+    @SerializedName("check_in")
+    @Expose
+    private String checkIn;
+
+    @SerializedName("check_out")
+    @Expose
+    private String checkOut;
+
+    @SerializedName("count_star")
+    @Expose
+    private double countStar;
+
+    public int getIdHotel() {
         return idHotel;
     }
 
-    public void setIdHotel(String idHotel) {
+    public void setIdHotel(int idHotel) {
         this.idHotel = idHotel;
     }
 
@@ -109,12 +121,12 @@ public class HotelForm {
     }
 
     public String getNameImage() {
-        if (nameImage == null) return "";
-        return nameImage;
+        if (linkImage == null) return "";
+        return linkImage;
     }
 
     public void setNameImage(String nameImage) {
-        this.nameImage = nameImage;
+        this.linkImage = nameImage;
     }
 
     public int getHotelId() {
@@ -125,11 +137,11 @@ public class HotelForm {
         this.hotelId = hotelId;
     }
 
-    public Object getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Object roomId) {
+    public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
@@ -139,5 +151,29 @@ public class HotelForm {
 
     public void setDistance(String distance) {
         this.distance = distance;
+    }
+
+    public String getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(String checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public String getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(String checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public double getCountStar() {
+        return countStar;
+    }
+
+    public void setCountStar(double countStar) {
+        this.countStar = countStar;
     }
 }

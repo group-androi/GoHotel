@@ -100,15 +100,17 @@ public class LoginActivity extends AppCompatActivity {
         String phone = edtPhone.getText().toString();
         String pass = edtPassword.getText().toString();
 
-        GoHotelApplication.serviceApi.login(phone,pass).enqueue(new Callback<UserInfo>() {
+        GoHotelApplication.serviceApi.login(phone, pass).enqueue(new Callback<UserInfo>() {
             @Override
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
                 if (response.code() == 200) {
                     UserInfo userInfo = response.body();
                     if (userInfo.getResult() == 1) {
-                        String json=new Gson().toJson(userInfo);
-                        PreferenceUtils.setToken(LoginActivity.this,userInfo.getToken());
+                        String json = new Gson().toJson(userInfo);
+                        PreferenceUtils.setToken(LoginActivity.this, userInfo.getToken());
                         PreferenceUtils.setUserInfo(LoginActivity.this, json);
+                        setResult(RESULT_OK);
+                        finish();
                     } else {
                         Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
                     }

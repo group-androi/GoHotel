@@ -3,7 +3,7 @@ package com.example.dangnguyenhai.gohotel.model.api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CityForm {
+public class DistrictForm {
     @SerializedName("key")
     @Expose
     private int key;
@@ -11,11 +11,11 @@ public class CityForm {
     @Expose
     private String name;
 
-    CityForm() {
-        clicked = false;
-    }
+    private boolean isClicked;
 
-    private boolean clicked;
+    DistrictForm() {
+        isClicked = false;
+    }
 
     public int getKey() {
         return key;
@@ -26,7 +26,6 @@ public class CityForm {
     }
 
     public String getName() {
-        if (name == null) return "";
         return name;
     }
 
@@ -35,10 +34,10 @@ public class CityForm {
     }
 
     public boolean isClicked() {
-        return clicked;
+        return isClicked;
     }
 
     public void setClicked(boolean clicked) {
-        this.clicked = clicked;
+        isClicked = clicked;
     }
 }

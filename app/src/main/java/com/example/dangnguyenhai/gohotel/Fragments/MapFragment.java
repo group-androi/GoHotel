@@ -1,10 +1,12 @@
 package com.example.dangnguyenhai.gohotel.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +14,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.activity.ChooseAreaActivity;
+import com.example.dangnguyenhai.gohotel.adapter.HotelMapAdapter;
 import com.example.dangnguyenhai.gohotel.gps.GeoCodeService;
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
 import com.example.dangnguyenhai.gohotel.model.MarkerWrapper;
@@ -28,6 +39,7 @@ import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 import com.example.dangnguyenhai.gohotel.utils.TextOnDrawable;
 import com.example.dangnguyenhai.gohotel.utils.Utils;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -60,6 +72,14 @@ public class MapFragment extends Fragment {
     private AddressResultReceiver mResultReceiver;
     private double mapLat, mapLng;
     private LatLng currentPosition;
+    private LinearLayout layoutChooseArea;
+    private RecyclerView rcvHotel;
+    private LinearLayoutManager linearLayoutManager;
+    private HotelMapAdapter hotelMapAdapter;
+    private int width;
+    private List<HotelForm> hotelForms;
+    private TextView tvChooseArea;
+    private boolean filterDistrict;
 
     @Override
     public void onAttach(Context context) {
@@ -92,13 +112,51 @@ public class MapFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.map_fragment, container, false);
         tvAddress = rootView.findViewById(R.id.tvAddress);
         tvAddress.setText(address);
+        tvChooseArea = rootView.findViewById(R.id.tvChooseArea);
+        Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        width = size.x;
+
         String lastLocation = PreferenceUtils.getLatLocation(context);
         if (!lastLocation.equals("")) {
             latitude = Double.parseDouble(PreferenceUtils.getLatLocation(context));
             longitude = Double.parseDouble(PreferenceUtils.getLongLocation(context));
         }
         currentPosition = new LatLng(latitude, longitude);
+        rcvHotel = rootView.findViewById(R.id.rcvHotel);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        rcvHotel.setHasFixedSize(true);
+        rcvHotel.setLayoutManager(linearLayoutManager);
+        hotelMapAdapter = new HotelMapAdapter(context, null, width);
+        rcvHotel.setAdapter(hotelMapAdapter);
+        hotelMapAdapter.notifyDataSetChanged();
+        LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
+        linearSnapHelper.attachToRecyclerView(rcvHotel);
+        rcvHotel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == 0) {
+                    if (rcvHotel.getLayoutManager() != null) {
+                        int potition = (((LinearLayoutManager) rcvHotel.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+                        List<HotelForm> hotelForms = hotelMapAdapter.getHotelFormList();
+                        if (potition != -1 && hotelForms != null && hotelForms.size() > 0) {
+                            if (hotelForms.size() > potition) {
+                                HotelForm hotelForm = hotelForms.get(potition);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(hotelForm.getLatitude()),
+                                        Double.valueOf(hotelForm.getLongitude())), currentZoom));
+                            }
+                        }
+                    }
+                }
+            }
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
         setUpMapIfNeeded();
         mResultReceiver = new AddressResultReceiver(new Handler(), (province, messageResult) -> {
             try {
@@ -107,13 +165,27 @@ public class MapFragment extends Fragment {
                 if (province.equals("") && messageResult.equals(getString(R.string.service_not_available))) {
                     startGeoCodeIntentService(mapLat, mapLng);
                 } else {
-                   getHotelMap();
+                    if (!filterDistrict)
+                        getHotelMap();
                 }
             } catch (Exception e) {
             }
         });
+        layoutChooseArea = rootView.findViewById(R.id.layoutChooseArea);
+        layoutChooseArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoChooseArea();
+            }
+        });
         return rootView;
     }
+
+    private void gotoChooseArea() {
+        Intent intent = new Intent(context, ChooseAreaActivity.class);
+        getActivity().startActivityForResult(intent, ParamConstants.REQUEST_CHOOSE_AREA_MAP);
+    }
+
 
     protected void startGeoCodeIntentService(double lat, double lng) {
         if (getActivity() != null) {
@@ -157,6 +229,13 @@ public class MapFragment extends Fragment {
                                     longitude), currentZoom));
                             Log.d("radius", "onCreateView: " + radiusMap() / 1000);
 
+                            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                                @Override
+                                public void onMapClick(LatLng latLng) {
+                                    hideHotelForm();
+                                }
+                            });
+
                             mMap.setOnCameraIdleListener(() -> {
                                 try {
 
@@ -168,6 +247,20 @@ public class MapFragment extends Fragment {
                                         startGeoCodeIntentService(mapLat, mapLng);
                                     }
                                 } catch (Exception e) {
+                                }
+                            });
+                            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(Marker marker) {
+                                    final MarkerWrapper markerWrapper = findHotelSn(marker);
+                                    if (markerWrapper != null) {
+                                        HotelForm hotelForm = markerWrapper.getHotelForm();
+                                        if (hotelForm != null) {
+                                            showHotelForm(hotelForm.getHotelId());
+                                        }
+                                    }
+
+                                    return false;
                                 }
                             });
 
@@ -189,14 +282,13 @@ public class MapFragment extends Fragment {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
                 if (response.code() == 200) {
-                    List<HotelForm> hotelForms = response.body();
+                    hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
                         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
                         if (markers != null) {
-                            for (MarkerWrapper markerWrapper : markers) {
-                                markerWrapper.getMarker().setVisible(false);
-                            }
+                            markers.clear();
+
                         }
                         for (HotelForm hotelForm : hotelForms) {
                             LatLng latLng = new LatLng(Double.valueOf(hotelForm.getLatitude()), Double.valueOf(hotelForm.getLongitude()));
@@ -364,4 +456,165 @@ public class MapFragment extends Fragment {
         }
     }
 
+    private void hideHotelForm() {
+        try {
+            if (rcvHotel != null && rcvHotel.getVisibility() == View.VISIBLE) {
+                Animation slide_down = AnimationUtils.loadAnimation(context,
+                        R.anim.hotel_slide_down);
+                rcvHotel.setVisibility(View.GONE);
+                slide_down.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        rcvHotel.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+                rcvHotel.startAnimation(slide_down);
+            }
+        } catch (Exception ignored) {
+
+        }
+
+    }
+
+
+    private void showHotelForm(int hotelSn) {
+        if (rcvHotel != null && rcvHotel.getVisibility() == View.GONE && linearLayoutManager != null) {
+            if (hotelForms != null && hotelForms.size() > 0) {
+                hotelMapAdapter.updateData(hotelForms);
+                hotelMapAdapter.notifyDataSetChanged();
+            }
+            int potition = findPotition(hotelSn, hotelForms);
+            rcvHotel.scrollToPosition(potition);
+
+            Animation slide_up = AnimationUtils.loadAnimation(getContext(),
+                    R.anim.hotel_slide_up);
+            slide_up.setFillBefore(true);
+            slide_up.setFillAfter(true);
+            rcvHotel.setVisibility(View.VISIBLE);
+            slide_up.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    rcvHotel.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            rcvHotel.startAnimation(slide_up);
+        } else if (rcvHotel != null && rcvHotel.getVisibility() == View.VISIBLE && linearLayoutManager != null) {
+            if (hotelForms != null && hotelForms.size() > 0) {
+                hotelMapAdapter.updateData(hotelForms);
+                hotelMapAdapter.notifyDataSetChanged();
+            }
+            int potition = findPotition(hotelSn, hotelForms);
+            rcvHotel.scrollToPosition(potition);
+        }
+
+    }
+
+    private int findPotition(int hotelSn, List<HotelForm> hotelFormList) {
+        if (hotelFormList != null) {
+            int size = hotelFormList.size();
+            for (int i = 0; i < size; i++) {
+                if (hotelSn == hotelFormList.get(i).getHotelId()) return i;
+            }
+        }
+        return 0;
+    }
+
+    public void getHotelCityDistrict(int city, int district, String districtName) {
+        tvChooseArea.setText(districtName);
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longlati = PreferenceUtils.getLongLocation(context);
+        GoHotelApplication.serviceApi.getHotelMap(lat, longlati, radiusMap() / 1000, city, district).enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                        if (markers != null) {
+                            markers.clear();
+                        }
+                        for (HotelForm hotelForm : hotelForms) {
+                            LatLng latLng = new LatLng(Double.valueOf(hotelForm.getLatitude()), Double.valueOf(hotelForm.getLongitude()));
+                            setupMarkerForMap(hotelForm, latLng);
+                            builder.include(latLng);
+                        }
+                        filterDistrict = true;
+
+                        LatLngBounds bounds = builder.build();
+                        int height = getResources().getDisplayMetrics().heightPixels - 3 * getResources().getDimensionPixelSize(R.dimen.map_icon_size);
+                        int width = getResources().getDisplayMetrics().widthPixels - getResources().getDimensionPixelSize(R.dimen.map_icon_size);
+                        int padding = (int) (width * 0.10);
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+                        mMap.animateCamera(cu);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getHotelCity(int city, String cityName) {
+        tvChooseArea.setText(cityName);
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longlati = PreferenceUtils.getLongLocation(context);
+        GoHotelApplication.serviceApi.getHotelMap(lat, longlati, radiusMap() / 1000, city).enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                        if (markers != null) {
+                            markers.clear();
+                        }
+                        for (HotelForm hotelForm : hotelForms) {
+                            LatLng latLng = new LatLng(Double.valueOf(hotelForm.getLatitude()), Double.valueOf(hotelForm.getLongitude()));
+                            setupMarkerForMap(hotelForm, latLng);
+                            builder.include(latLng);
+                        }
+                        filterDistrict = true;
+                        LatLngBounds bounds = builder.build();
+                        int height = getResources().getDisplayMetrics().heightPixels - 3 * getResources().getDimensionPixelSize(R.dimen.map_icon_size);
+                        int width = getResources().getDisplayMetrics().widthPixels - getResources().getDimensionPixelSize(R.dimen.map_icon_size);
+                        int padding = (int) (width * 0.10);
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+                        mMap.animateCamera(cu);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+
+            }
+        });
+    }
 }

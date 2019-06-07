@@ -1,9 +1,10 @@
 package com.example.dangnguyenhai.gohotel.Enums;
 
-public enum  TypeFragment {
-    HOME(0), SEARCH(1), MAP(2),ACCOUNT(3);
+public enum TypeFragment {
+    HOME(0), SEARCH(1), MAP(2), ACCOUNT(3), MYPAGE(4);
 
     private int type;
+
     public int getType() {
         return this.type;
     }
@@ -13,7 +14,7 @@ public enum  TypeFragment {
     }
 
     public static TypeFragment toType(int type) {
-        switch (type){
+        switch (type) {
             case 0:
                 return HOME;
             case 1:
@@ -22,6 +23,8 @@ public enum  TypeFragment {
                 return MAP;
             case 3:
                 return ACCOUNT;
+            case 4:
+                return MYPAGE;
         }
         return HOME;
     }

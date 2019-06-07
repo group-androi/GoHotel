@@ -88,13 +88,27 @@
         android:background="@color/colorDefault"
         android:visibility="gone" />
 
-    <fragment
-        android:id="@+id/map"
-        class="com.google.android.gms.maps.SupportMapFragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent">
 
-        />
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcvHotel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
 
 
 </LinearLayout>

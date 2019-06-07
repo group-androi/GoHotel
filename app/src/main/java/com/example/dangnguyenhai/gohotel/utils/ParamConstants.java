@@ -1,5 +1,7 @@
 package com.example.dangnguyenhai.gohotel.utils;
 
+import android.os.Bundle;
+
 public class ParamConstants {
 
     public static final int REQUEST_SIGNUP_LOGIN = 1000;
@@ -25,4 +27,7 @@ public class ParamConstants {
             ".LATITUDE_DATA_EXTRA";
     public static final String LONGITUDE_DATA_EXTRA = PACKAGE_NAME +
             ".LONGITUDE_DATA_EXTRA";
+    public static final int REQUEST_CHOOSE_AREA_HOME = 2000;
+    public static final int REQUEST_CHOOSE_AREA_MAP = 3000;
+    public static final int REQUEST_MAIN_LOGIN = 4000;
 }
