@@ -1,5 +1,6 @@
 package com.example.dangnguyenhai.gohotel.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import com.example.dangnguyenhai.gohotel.Enums.TypeFragment;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.activity.BookingList;
+import com.example.dangnguyenhai.gohotel.activity.EditProfileActivity;
 import com.example.dangnguyenhai.gohotel.activity.MainActivity;
 import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
+import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 import com.google.gson.Gson;
 
@@ -25,7 +28,7 @@ public class MyPageFragment extends Fragment {
     private String userInfo;
     private UserInfo user;
     private TextView tvUserId, tvPhone;
-    private LinearLayout btnLogOut, btnMyBooking;
+    private LinearLayout btnLogOut, btnMyBooking, btnMyProfile;
 
     public static MyPageFragment newInstance() {
         MyPageFragment myFragment = new MyPageFragment();
@@ -65,11 +68,23 @@ public class MyPageFragment extends Fragment {
                 gotoBookingList();
             }
         });
+        btnMyProfile = rootView.findViewById(R.id.btnMyProfile);
+        btnMyProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoMyProfile();
+            }
+        });
         return rootView;
     }
 
+    private void gotoMyProfile() {
+        Intent intent = new Intent(getContext(), EditProfileActivity.class);
+        ((Activity) context).startActivityForResult(intent, ParamConstants.REQUEST_CHANGE_PROFILE);
+    }
+
     private void gotoBookingList() {
-        Intent intent=new Intent(context, BookingList.class);
+        Intent intent = new Intent(context, BookingList.class);
         startActivity(intent);
     }
 }

@@ -10,6 +10,9 @@ public class UserInfo {
     @SerializedName("number_phone")
     @Expose
     private String numberPhone;
+    @SerializedName("email")
+    @Expose
+    private String email;
     @SerializedName("gender")
     @Expose
     private String gender;
@@ -69,5 +72,13 @@ public class UserInfo {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

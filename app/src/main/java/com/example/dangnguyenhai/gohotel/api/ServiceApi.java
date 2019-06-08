@@ -26,8 +26,8 @@ public interface ServiceApi {
 
     @POST("/API_GoHotel/user/create.php")
     @FormUrlEncoded
-    Call<ResponseUserCreate> updateUserReview(@Field("phone") String phone, @Field("password") String password
-            , @Field("birthday") String birthday, @Field("gender") String gender, @Field("device_id") String device_id
+    Call<ResponseUserCreate> createUser(@Field("phone") String phone, @Field("password") String password
+            , @Field("birthday") String birthday,@Field("mail") String mail, @Field("gender") String gender, @Field("device_id") String device_id
             , @Header("token") String token);
 
     @POST("/API_GoHotel/user/checkEqualPhone.php")
@@ -132,5 +132,9 @@ public interface ServiceApi {
     @FormUrlEncoded
     Call<BookRes> updateBookingDetail(@Field("id") int bookingId,@Field("status") int status);
 
+
+    @POST("/API_GoHotel/user/update.php")
+    @FormUrlEncoded
+    Call<BookRes> updateUser(@Header("token") String token,@Field("phone") String phone,@Field("pass") String pass,@Field("gender") String gender,@Field("mail") String mail,@Field("birthday") String birthday);
 
 }

@@ -191,7 +191,7 @@ public class SignUpActivity extends AppCompatActivity {
         String gender = "nam";
         if (!rdNam.isChecked())
             gender = "nữ";
-        GoHotelApplication.serviceApi.updateUserReview(phone, pass, birthday, gender, GoHotelApplication.DEVICE_ID, "").enqueue(new Callback<ResponseUserCreate>() {
+        GoHotelApplication.serviceApi.createUser(phone, pass, birthday,email, gender, GoHotelApplication.DEVICE_ID, "").enqueue(new Callback<ResponseUserCreate>() {
             @Override
             public void onResponse(Call<ResponseUserCreate> call, retrofit2.Response<ResponseUserCreate> response) {
                 if (response.code() == 200) {

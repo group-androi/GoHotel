@@ -70,6 +70,7 @@
         </activity>
         <activity android:name=".activity.BookingDetail" />
         <activity android:name=".activity.BookingList" />
+        <activity android:name=".activity.EditProfileActivity" />
     </application>
 
 </manifest>
