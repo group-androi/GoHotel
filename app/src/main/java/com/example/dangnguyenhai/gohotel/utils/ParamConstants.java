@@ -31,4 +31,5 @@ public class ParamConstants {
     public static final int REQUEST_CHOOSE_AREA_MAP = 3000;
     public static final int REQUEST_MAIN_LOGIN = 4000;
     public static final int REQUEST_CHANGE_PROFILE = 5000;
+    public static final int REQUEST_CHANGE_PASS = 6000;
 }

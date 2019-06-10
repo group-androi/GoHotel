@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.model.api.BookRes;
 import com.example.dangnguyenhai.gohotel.model.api.ResponseUserCreate;
 import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
+import com.example.dangnguyenhai.gohotel.utils.AppTimeUtils;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 import com.example.dangnguyenhai.gohotel.utils.UtilityValidate;
 import com.example.dangnguyenhai.gohotel.widgets.dialog.DateTimeDialogUtils;
@@ -32,6 +34,7 @@ public class EditProfileActivity extends AppCompatActivity {
     EditText edtPhone, edtEmail, edtPassword, edtBirthday;
     RadioButton rdNam, rdNu;
     Button btnUpdate;
+    ImageView btnClose;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,9 +93,9 @@ public class EditProfileActivity extends AppCompatActivity {
         rdNu = findViewById(R.id.rdNu);
 
         edtPhone.setText(userInfo.getNumberPhone());
-        edtBirthday.setText(userInfo.getBirthday());
+        edtBirthday.setText(AppTimeUtils.changeDateShowClient(userInfo.getBirthday()));
         String gender=userInfo.getGender();
-        if(gender.equals("Nam"))
+        if(gender.equals("nam"))
             rdNam.setChecked(true);
         else rdNu.setChecked(true);
         edtEmail.setText(userInfo.getEmail());
@@ -102,6 +105,13 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 updateUser();
+            }
+        });
+        btnClose=findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }
@@ -118,18 +128,23 @@ public class EditProfileActivity extends AppCompatActivity {
         String phone = edtPhone.getText().toString();
 
         String email = edtEmail.getText().toString();
-        String birthday = edtBirthday.getText().toString();
+        String birthday = AppTimeUtils.changeDateUpToServer(edtBirthday.getText().toString());
         String gender = "nam";
         if (!rdNam.isChecked())
             gender = "nữ";
+        String finalGender = gender;
         GoHotelApplication.serviceApi.updateUser(PreferenceUtils.getToken(this),phone,pass,gender,email,birthday).enqueue(new Callback<BookRes>() {
             @Override
             public void onResponse(Call<BookRes> call, Response<BookRes> response) {
                 if(response.code()==200){
                     BookRes bookRes=response.body();
                     if(bookRes!=null){
-                        if(bookRes.getResult()>1){
+                        if(bookRes.getResult()>0){
                             Toast.makeText(EditProfileActivity.this,"Cập nhật thành công",Toast.LENGTH_SHORT).show();
+                            userInfo.setEmail(email);
+                            userInfo.setBirthday(birthday);
+                            userInfo.setGender(finalGender);
+                            PreferenceUtils.setUserInfo(EditProfileActivity.this,new Gson().toJson(userInfo));
                             setResult(RESULT_OK);
                             finish();
                         }else {
