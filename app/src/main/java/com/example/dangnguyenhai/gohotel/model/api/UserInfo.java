@@ -21,7 +21,7 @@ public class UserInfo {
     private String token;
     @SerializedName("result")
     @Expose
-    private Integer result;
+    private int result;
     @SerializedName("message")
     @Expose
     private String message;
@@ -58,11 +58,11 @@ public class UserInfo {
         this.token = token;
     }
 
-    public Integer getResult() {
+    public int getResult() {
         return result;
     }
 
-    public void setResult(Integer result) {
+    public void setResult(int result) {
         this.result = result;
     }
 

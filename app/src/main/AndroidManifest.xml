@@ -71,6 +71,7 @@
         <activity android:name=".activity.BookingDetail" />
         <activity android:name=".activity.BookingList" />
         <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.ChangPasswordActivity" />
     </application>
 
 </manifest>

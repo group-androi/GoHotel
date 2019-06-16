@@ -340,7 +340,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (RESULT_OK == resultCode) {
                     changeTab(TypeFragment.MYPAGE.getType());
                 }
-
+                break;
+            case ParamConstants.REQUEST_CHANGE_PASS:
+                if(RESULT_OK == resultCode){
+                    PreferenceUtils.setUserInfo(this,"");
+                    PreferenceUtils.setToken(this,"");
+                    changeTab(TypeFragment.MYPAGE.getType());
+                }
+                break;
         }
     }
 }

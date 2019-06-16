@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.dangnguyenhai.gohotel.Enums.TypeFragment;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.activity.BookingList;
+import com.example.dangnguyenhai.gohotel.activity.ChangPasswordActivity;
 import com.example.dangnguyenhai.gohotel.activity.EditProfileActivity;
 import com.example.dangnguyenhai.gohotel.activity.MainActivity;
 import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
@@ -28,7 +29,7 @@ public class MyPageFragment extends Fragment {
     private String userInfo;
     private UserInfo user;
     private TextView tvUserId, tvPhone;
-    private LinearLayout btnLogOut, btnMyBooking, btnMyProfile;
+    private LinearLayout btnLogOut, btnMyBooking, btnMyProfile, btnChangePass;
 
     public static MyPageFragment newInstance() {
         MyPageFragment myFragment = new MyPageFragment();
@@ -83,7 +84,20 @@ public class MyPageFragment extends Fragment {
                 gotoMyProfile();
             }
         });
+        btnChangePass = rootView.findViewById(R.id.btnChangePass);
+        btnChangePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoChangePass();
+            }
+        });
         return rootView;
+    }
+
+    private void gotoChangePass() {
+        Intent intent = new Intent(getContext(), ChangPasswordActivity.class);
+        intent.putExtra("phone", user.getNumberPhone());
+        ((Activity) context).startActivityForResult(intent, ParamConstants.REQUEST_CHANGE_PASS);
     }
 
     private void gotoMyProfile() {

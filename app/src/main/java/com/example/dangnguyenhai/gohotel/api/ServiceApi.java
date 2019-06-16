@@ -136,4 +136,8 @@ public interface ServiceApi {
     @FormUrlEncoded
     Call<BookRes> updateUser(@Header("token") String token,@Field("phone") String phone,@Field("pass") String pass,@Field("gender") String gender,@Field("mail") String mail,@Field("birthday") String birthday);
 
+    @POST("/API_GoHotel/user/changePassword.php")
+    @FormUrlEncoded
+    Call<BookRes> changePassword(@Header("token") String token,@Field("phone") String phone,@Field("password_old") String password_old,@Field("password_new") String password_new);
+
 }

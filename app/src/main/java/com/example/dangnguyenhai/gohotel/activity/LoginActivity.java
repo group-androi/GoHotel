@@ -95,6 +95,23 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ParamConstants.REQUEST_SIGNUP_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                if (data != null && data.getExtras() != null) {
+                    Bundle bundle = data.getExtras();
+                    String password = bundle.getString("password");
+                    String phone = bundle.getString("phone");
+                    edtPhone.setText(phone);
+                    edtPassword.setText(password);
+                    handleLogin();
+                }
+            }
+        }
+    }
+
     private void handleLogin() {
         //gọi hàm request forcus để chạy vào sự kiện forcus của user
         edtPhone.requestFocus();
@@ -111,17 +128,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
                 if (response.code() == 200) {//json trả về trong body
                     UserInfo userInfo = response.body();
-                    if (userInfo.getResult() == 1) {
-                        //userinfo chuyển về dạng
-                        String json = new Gson().toJson(userInfo);
-                        //lưu lại token
-                        PreferenceUtils.setToken(LoginActivity.this, userInfo.getToken());
-                        //lưu lại thông tin user
-                        PreferenceUtils.setUserInfo(LoginActivity.this, json);
-                        setResult(RESULT_OK);
-                        finish();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
+                    if (userInfo != null) {
+                        if (userInfo.getResult() == 1) {
+                            String json = new Gson().toJson(userInfo);
+                            PreferenceUtils.setToken(LoginActivity.this, userInfo.getToken());
+                            PreferenceUtils.setUserInfo(LoginActivity.this, json);
+                            setResult(RESULT_OK);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
+                        }
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
