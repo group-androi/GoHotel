@@ -211,15 +211,16 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseUserCreate> call, retrofit2.Response<ResponseUserCreate> response) {
                 if (response.code() == 200) {
+                    //json se dc trả về trong response body
                     ResponseUserCreate responseUserCreate = response.body();
                     if (responseUserCreate.getResult() > 0) {
-
+                        //đăng ký thành công
                         PreferenceUtils.setToken(context, responseUserCreate.getToken());
                         Intent intent = new Intent();
                         intent.putExtra("phone", phone);
                         intent.putExtra("password", pass);
                         setResult(RESULT_OK,intent);
-
+                        //đóng màn hình
                         finish();
                     } else {
                         Toast.makeText(context, responseUserCreate.getMessage(), Toast.LENGTH_LONG).show();

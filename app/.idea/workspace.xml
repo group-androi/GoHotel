@@ -12,20 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92fa00cd-cca8-4046-b0cf-baff8a12e77f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/ChangPasswordActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/change_password_activity.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/caches/gradle_models.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/Fragments/MyPageFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/Fragments/MyPageFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/EditProfileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/EditProfileActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SignUpActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SignUpActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/ServiceApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/ServiceApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/UrlParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/UrlParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/model/api/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/model/api/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/utils/ParamConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/utils/ParamConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/my_page_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/my_page_fragment.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,20 +49,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/EditProfileActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1545">
-              <caret line="133" column="26" selection-start-line="133" selection-start-column="26" selection-end-line="133" selection-end-column="26" />
+            <state relative-caret-position="-235">
+              <caret line="146" column="29" selection-start-line="146" selection-start-column="29" selection-end-line="146" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SignUpActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
-              <caret line="212" selection-start-line="212" selection-end-line="212" />
+            <state relative-caret-position="357">
+              <caret line="222" column="39" selection-start-line="222" selection-start-column="39" selection-end-line="222" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -82,17 +70,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/UrlParams.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="165">
+              <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/Fragments/MyPageFragment.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SortFilterActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
+            <state relative-caret-position="427">
+              <caret line="171" column="17" selection-start-line="171" selection-start-column="17" selection-end-line="171" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -157,15 +145,15 @@
         <option value="$PROJECT_DIR$/src/main/res/layout/booking_list_activity.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/adapter/ProvinceAdapter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/MainActivity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/UrlParams.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SplashScreen.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/Fragments/MyPageFragment.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/BookingList.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/adapter/MyBookingAdapter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/ChooseAreaActivity.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/EditProfileActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/UrlParams.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SignUpActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/EditProfileActivity.java" />
       </list>
     </option>
   </component>
@@ -209,6 +197,70 @@
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="activity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="adapter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="Enums" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="Fragments" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="gps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="widgets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="gohotel" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="Calendar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GoHotel" type="1abcf292:AndroidViewProjectNode" />
@@ -567,13 +619,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SortFilterActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="733">
-          <caret line="171" column="17" selection-start-line="171" selection-start-column="17" selection-end-line="171" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/ReservationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -673,13 +718,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/UrlParams.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/Fragments/MyPageFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="825">
@@ -727,17 +765,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/EditProfileActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/api/UrlParams.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1545">
-          <caret line="133" column="26" selection-start-line="133" selection-start-column="26" selection-end-line="133" selection-end-column="26" />
+        <state relative-caret-position="165">
+          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SortFilterActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="171" column="17" selection-start-line="171" selection-start-column="17" selection-end-line="171" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/SignUpActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="212" selection-start-line="212" selection-end-line="212" />
+        <state relative-caret-position="357">
+          <caret line="222" column="39" selection-start-line="222" selection-start-column="39" selection-end-line="222" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/dangnguyenhai/gohotel/activity/EditProfileActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-235">
+          <caret line="146" column="29" selection-start-line="146" selection-start-column="29" selection-end-line="146" selection-end-column="29" />
         </state>
       </provider>
     </entry>

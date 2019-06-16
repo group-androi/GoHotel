@@ -54,7 +54,9 @@ public class EditProfileActivity extends AppCompatActivity {
         edtPhone.setFocusable(false);
 
         edtEmail.setOnFocusChangeListener((view, hasFocus) -> {
+            //sự kiện forcus vào ô email
             if (!hasFocus) {
+                //nếu không forcus
                 if (!UtilityValidate.isEmailValid(edtEmail.getText().toString())) {
                     inputLayoutMail.setError("Định dạng email không hợp lệ");
                     inputLayoutMail.setErrorEnabled(true);
@@ -82,24 +84,29 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
         edtBirthday.setOnClickListener(view -> {
+            // sét minyear cho lịch chọn này là 1950
             Calendar minYear = Calendar.getInstance();
             minYear.set(Calendar.YEAR, 1950);
 
+            //max year = năm hiện tại - 18
             Calendar maxYear = Calendar.getInstance();
             maxYear.set(Calendar.YEAR, maxYear.get(Calendar.YEAR) - 18);
             DateTimeDialogUtils.showDatePickerDialog(this, edtBirthday, minYear, maxYear);
         });
         rdNam = findViewById(R.id.rdNam);
         rdNu = findViewById(R.id.rdNu);
-
+        //set phone
         edtPhone.setText(userInfo.getNumberPhone());
         edtBirthday.setText(AppTimeUtils.changeDateShowClient(userInfo.getBirthday()));
         String gender=userInfo.getGender();
+        //set giới tính
         if(gender.equals("nam"))
             rdNam.setChecked(true);
         else rdNu.setChecked(true);
+        //set email
         edtEmail.setText(userInfo.getEmail());
 
+        //update
         btnUpdate=findViewById(R.id.btnUpdate);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +114,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 updateUser();
             }
         });
+        //dong màn hình
         btnClose=findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,9 +125,11 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void updateUser() {
+        //update user gọi hàm request để chạy sự kiện lăng nghe request
         edtPhone.requestFocus();
         edtPassword.requestFocus();
         edtEmail.requestFocus();
+        //kiểm tra có lỗi không
         if (inputLayoutMail.isErrorEnabled() || inputLayoutPhone.isErrorEnabled() ) {
             return;
         }
@@ -134,6 +144,7 @@ public class EditProfileActivity extends AppCompatActivity {
             gender = "nữ";
         // update user
         String finalGender = gender;
+        //gọi api update user
         GoHotelApplication.serviceApi.updateUser(PreferenceUtils.getToken(this),phone,pass,gender,email,birthday).enqueue(new Callback<BookRes>() {
             @Override
             public void onResponse(Call<BookRes> call, Response<BookRes> response) {
