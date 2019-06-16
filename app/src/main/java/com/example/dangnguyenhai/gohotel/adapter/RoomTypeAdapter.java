@@ -44,6 +44,7 @@ public class RoomTypeAdapter extends RecyclerView.Adapter<RoomTypeAdapter.ViewHo
         holder.tvRoomName.setText(roomTypeForm.getName());
         holder.tvPrice.setText(String.format("%s VND", Utils.formatCurrency(roomTypeForm.getPricePerDay())));
         holder.tvSoPhong.setText(String.format("Số phòng : %d", roomTypeForm.getNumberOfRooms()));
+        //dùng load hình ảnh
         RequestOptions requestOptions = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.loading_big)

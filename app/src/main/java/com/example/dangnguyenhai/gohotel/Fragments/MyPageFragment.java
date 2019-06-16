@@ -49,26 +49,34 @@ public class MyPageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.my_page_fragment, container, false);
+        // lấy thông tin người dùng
         userInfo = PreferenceUtils.getUserInfo(context);
+        //parse json thành user infor
         user = new Gson().fromJson(userInfo, UserInfo.class);
         tvUserId = rootView.findViewById(R.id.tvUserId);
+        //set result vào id
         tvUserId.setText(String.valueOf(user.getResult()));
         tvPhone = rootView.findViewById(R.id.tvPhone);
         tvPhone.setText(user.getNumberPhone());
         btnLogOut = rootView.findViewById(R.id.btnLogOut);
         btnLogOut.setOnClickListener(view -> {
+            //set token = rong
+            //set userinfo=rong
             PreferenceUtils.setToken(context, "");
             PreferenceUtils.setUserInfo(context, "");
+            //chuyển về màn hình home
             ((MainActivity) context).changeTab(TypeFragment.HOME.getType());
         });
         btnMyBooking = rootView.findViewById(R.id.btnMyBooking);
         btnMyBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //đi đến danh sách booking
                 gotoBookingList();
             }
         });
         btnMyProfile = rootView.findViewById(R.id.btnMyProfile);
+        //di den thong tin user
         btnMyProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

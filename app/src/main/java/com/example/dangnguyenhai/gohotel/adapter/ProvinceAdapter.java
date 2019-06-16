@@ -38,6 +38,7 @@ public class ProvinceAdapter extends RecyclerView.Adapter<ProvinceAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ProvinceAdapter.ViewHolder holder, int position) {
+        // nếu được chọn thì màu xanh
         if (cityForms.get(position).isClicked()) {
             holder.bgContainer.setBackgroundColor(resource.getColor(R.color.colorPrimary));
             holder.tvProvinceName.setTextColor(resource.getColor(R.color.colorWhite));
@@ -49,10 +50,13 @@ public class ProvinceAdapter extends RecyclerView.Adapter<ProvinceAdapter.ViewHo
 
 
         holder.tvProvinceName.setText(cityForms.get(position).getName());
+        // click vào dòng nào
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //lấy kích cỡ của mảng
                 int size = cityForms.size();
+                // nếu mà i khác với vị trí được chọn thì bằng false
                 for (int i = 0; i < size; i++) {
                     if (i != position)
                         cityForms.get(i).setClicked(false);

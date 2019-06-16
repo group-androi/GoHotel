@@ -124,7 +124,6 @@ public interface ServiceApi {
     Call<List<BookingUserForm>> getBookingDetail(@Field("id") int bookingId);
 
 
-
     @POST("/API_GoHotel/book/getAccordingToToken.php")
     Call<List<BookingUserForm>> getMyBooking(@Header("token") String token);
 

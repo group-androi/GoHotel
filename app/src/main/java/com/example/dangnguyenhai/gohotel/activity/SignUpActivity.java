@@ -53,13 +53,17 @@ public class SignUpActivity extends AppCompatActivity {
         inputLayoutPhone = findViewById(R.id.inputLayoutPhone);
         inputLayoutMail = findViewById(R.id.inputLayoutMail);
         edtPhone = findViewById(R.id.edtPhone);
+        // bắt sự kiện khi người dùng forcus
         edtPhone.setOnFocusChangeListener((view, hasFocus) -> {
+            // người dùng ko còn forcus với nhập phone => has forcus = false
             if (!hasFocus) {
                 String phone=edtPhone.getText().toString();
+                //kiểm tra phone rỗng
                 if(phone.isEmpty()){
                     inputLayoutPhone.setError("Số điện thoại không được để trống");
                     inputLayoutPhone.setErrorEnabled(true);
                 }else {
+                    // không rỗng gọi api kiểm tra số điện thoại tồn tại trên server hay không
                 checkPhoneAlready(new CheckPhoneListener() {
                     @Override
                     public void onAlreadyExists() {
@@ -83,6 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtEmail.setOnFocusChangeListener((view, hasFocus) -> {
             if (!hasFocus) {
+                //kiểm tra dinh dạng mail
                 if (!UtilityValidate.isEmailValid(edtEmail.getText().toString())) {
                     inputLayoutMail.setError("Định dạng email không hợp lệ");
                     inputLayoutMail.setErrorEnabled(true);
@@ -115,6 +120,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onFocusChange(View view, boolean b) {
                 if (!b) {
                     String pass = edtPassword.getText().toString();
+                    //kiểm tra trùng
                     if (!pass.equals(edtConfirmPassword.getText().toString())) {
                         inputLayoutConfirm.setError("Không trùng với mật khẩu");
                         inputLayoutConfirm.setErrorEnabled(true);
@@ -126,12 +132,16 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
         edtBirthday = findViewById(R.id.edtBirthday);
+        // sự kiện user click vào
         edtBirthday.setOnClickListener(view -> {
+            // lấy ngày tháng năm nhỏ nhất
             Calendar minYear = Calendar.getInstance();
             minYear.set(Calendar.YEAR, 1950);
 
+            // max year là năm hiện -
             Calendar maxYear = Calendar.getInstance();
             maxYear.set(Calendar.YEAR, maxYear.get(Calendar.YEAR) - 18);
+
             DateTimeDialogUtils.showDatePickerDialog(SignUpActivity.this, edtBirthday, minYear, maxYear);
         });
         rdNam = findViewById(R.id.rdNam);
@@ -141,14 +151,19 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void checkPhoneAlready(CheckPhoneListener checkPhoneListener) {
+        // lấy số điện thoại đã nhập ra
         String phone = edtPhone.getText().toString();
         GoHotelApplication.serviceApi.checkEqualPhone(phone, "").enqueue(new Callback<ResponseUserCreate>() {
             @Override
             public void onResponse(Call<ResponseUserCreate> call, Response<ResponseUserCreate> response) {
+                // trả về thành công
                 if (response.code() == 200) {
+                    // chỗi json nằm trong body
                     ResponseUserCreate responseUserCreate = response.body();
+                    //nếu result ==1 => tồn
                     if (responseUserCreate.getResult() == 1) {
                         checkPhoneListener.onNotAlreadyExists();
+                        // lưu token lại trong preferrent
                         PreferenceUtils.setToken(SignUpActivity.this, responseUserCreate.getToken());
                     } else {
                         checkPhoneListener.onAlreadyExists();
@@ -168,10 +183,12 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void registerUser(Context context) {
+        //request forcus gọi lại sự kiện forcus
         edtPhone.requestFocus();
         edtConfirmPassword.requestFocus();
         edtPassword.requestFocus();
         edtEmail.requestFocus();
+        // nếu 1 trong tất cả bị lỗi
         if (inputLayoutMail.isErrorEnabled() || inputLayoutPhone.isErrorEnabled() || inputLayoutConfirm.isErrorEnabled()) {
             return;
         }
@@ -191,6 +208,7 @@ public class SignUpActivity extends AppCompatActivity {
         String gender = "nam";
         if (!rdNam.isChecked())
             gender = "nữ";
+        //gọi api create user
         GoHotelApplication.serviceApi.createUser(phone, pass, birthday,email, gender, GoHotelApplication.DEVICE_ID, "").enqueue(new Callback<ResponseUserCreate>() {
             @Override
             public void onResponse(Call<ResponseUserCreate> call, retrofit2.Response<ResponseUserCreate> response) {

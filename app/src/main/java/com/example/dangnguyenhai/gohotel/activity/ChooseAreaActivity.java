@@ -47,12 +47,15 @@ public class ChooseAreaActivity extends AppCompatActivity {
     }
 
     private void getListCity() {
+        // lấy danh sách thành
         GoHotelApplication.serviceApi.getCity().enqueue(new Callback<List<CityForm>>() {
             @Override
             public void onResponse(Call<List<CityForm>> call, Response<List<CityForm>> response) {
                 if (response.code() == 200) {
+                    //danh sach thành phó lưu vào body
                     List<CityForm> cityForms = response.body();
                     if (cityForms != null && cityForms.size() > 0) {
+                        // hàm xử lý danh sách thành phố
                         handleListCity(cityForms);
                     }
                 } else {
@@ -68,9 +71,13 @@ public class ChooseAreaActivity extends AppCompatActivity {
     }
 
     private void handleListCity(List<CityForm> cityForms) {
+        //chọn thành phố đứng đầu
         cityForms.get(0).setClicked(true);
+        // city dùng để xác định thành phố nào dc chọn
         city = cityForms.get(0);
         provinceAdapter = new ProvinceAdapter(this, cityForms, cityForm -> {
+            //onclick
+            // lấy danh sách quận huyện
             getDistrict(cityForm.getKey());
             provinceAdapter.notifyDataSetChanged();
             city = cityForm;
@@ -80,11 +87,14 @@ public class ChooseAreaActivity extends AppCompatActivity {
     }
 
     private void handleListDistrict(List<DistrictForm> districtForms) {
+        // xử lý danh sách quận huyện
         districtAdapter = new DistrictAdapter(this, districtForms, new DistrictAdapter.OnItemClick() {
 
             @Override
             public void onClick(DistrictForm districtForm) {
+                // onclick
                 district = districtForm;
+                // bắt adater khi nó thay đổi
                 districtAdapter.notifyDataSetChanged();
             }
         });
@@ -92,6 +102,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
     }
 
     private void getDistrict(int provine) {
+        // api để lấy quận huyện
         GoHotelApplication.serviceApi.accordingToCityId(provine).enqueue(new Callback<List<DistrictForm>>() {
             @Override
             public void onResponse(Call<List<DistrictForm>> call, Response<List<DistrictForm>> response) {
@@ -111,7 +122,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
             }
         });
     }
-
+    // ánh xạ layout để xử lý
     private void addview() {
         btnApply = findViewById(R.id.btnApply);
         lvProvinces = findViewById(R.id.lvProvinces);
@@ -130,6 +141,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
     }
 
     private void handleApply() {
+        // xử lý nút đồng ý
         Intent intent = new Intent();
         if (city != null && city.isClicked()) {
             intent.putExtra("cityName", city.getName());
@@ -139,6 +151,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
             intent.putExtra("districtName", district.getName());
             intent.putExtra("districtKey", district.getKey());
         }
+        // result code = resut ok
         setResult(RESULT_OK, intent);
         finish();
     }

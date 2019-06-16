@@ -122,6 +122,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String gender = "nam";
         if (!rdNam.isChecked())
             gender = "nữ";
+        // update user
         GoHotelApplication.serviceApi.updateUser(PreferenceUtils.getToken(this),phone,pass,gender,email,birthday).enqueue(new Callback<BookRes>() {
             @Override
             public void onResponse(Call<BookRes> call, Response<BookRes> response) {

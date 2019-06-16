@@ -28,6 +28,7 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.View
         this.bookingUserForms = bookingUserForms;
     }
 
+    // hàm tạo layout
     @Override
     public Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -35,25 +36,35 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.View
         return new Viewholder(view);
     }
 
+    //hàm set giá trị vào layout
     @Override
     public void onBindViewHolder(Viewholder holder, int position) {
+
         BookingUserForm bookingForm = bookingUserForms.get(position);
         if (bookingForm != null) {
+            // set ten hotel
             holder.tvHotelName.setText(bookingForm.getNameHotel());
+            //set thoi gian book
             holder.tvDate.setText(AppTimeUtils.changeDateShowClient(bookingForm.getTimeBook()));
+            //set ten phòng
             holder.tvRoomName.setText(bookingForm.getNameRoom());
+            //set giá tiền
             holder.tvFee.setText(String.format("%s VND", Utils.formatCurrency(bookingForm.getPrice())));
+            // set loại booking
             holder.tvBookingType.setText("Theo ngày");
             holder.tvBookingStatus.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            //set trang thai booking
             if (bookingForm.getStatus() == 0) {
                 holder.tvBookingStatus.setText("Đã đặt");
             } else if (bookingForm.getStatus() == -1)
                 holder.tvBookingStatus.setText("Đã hủy");
             else if (bookingForm.getStatus() == 1)
                 holder.tvBookingStatus.setText("Đã nhận phòng");
+            // sự kiện user nhấn vào dòng
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //gọi qua màn hình booking detail truyền vào bookingid
                     Intent intent=new Intent(context, BookingDetail.class);
                     intent.putExtra("BookingID",bookingForm.getIdBook());
                     context.startActivity(intent);
@@ -62,6 +73,7 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.View
         }
     }
 
+    //get số lượng item của list
     @Override
     public int getItemCount() {
         return bookingUserForms.size();

@@ -37,8 +37,13 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.google.android:flexbox:1.0.0'
+
+    // hỗ trợ chuyển đổi json sang 1 object
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    // kết nối a
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
 

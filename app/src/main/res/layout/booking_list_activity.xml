@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:text="Đặt phòng của tôi"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorBlack"
             android:textSize="20dp" />
     </LinearLayout>
 

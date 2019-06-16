@@ -307,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case ParamConstants.REQUEST_CHOOSE_AREA_HOME:
                 if (RESULT_OK == resultCode) {
                     if (data != null && data.getExtras() != null) {
+                        //bundle là chứa dữ liệu đã duoc put vào intent
                         Bundle bundle = data.getExtras();
                         int city = bundle.getInt("cityKey", -1);
                         String cityName = bundle.getString("cityName", "");

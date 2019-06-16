@@ -39,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         btnClose = findViewById(R.id.btnClose);
         edtPhone = findViewById(R.id.edtPhone);
         edtPhone.setOnFocusChangeListener((view, hasFocus) -> {
+            // user focus
+            // nếu user không còn forcus
             if (!hasFocus) {
                 String phone = edtPhone.getText().toString();
                 if (phone.isEmpty()) {
@@ -78,9 +80,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                // request signup hứng kết quả có thành công hay
                 startActivityForResult(intent, ParamConstants.REQUEST_SIGNUP_LOGIN);
             }
         });
+        //onbackpress dùng để back lại màn hình trước
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,22 +96,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void handleLogin() {
+        //gọi hàm request forcus để chạy vào sự kiện forcus của user
         edtPhone.requestFocus();
         edtPassword.requestFocus();
+
         if (inputLayoutPassword.isErrorEnabled() || inputLayoutPhone.isErrorEnabled()) {
             return;
         }
         String phone = edtPhone.getText().toString();
         String pass = edtPassword.getText().toString();
-
+        // gọi api
         GoHotelApplication.serviceApi.login(phone, pass).enqueue(new Callback<UserInfo>() {
             @Override
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-                if (response.code() == 200) {
+                if (response.code() == 200) {//json trả về trong body
                     UserInfo userInfo = response.body();
                     if (userInfo.getResult() == 1) {
+                        //userinfo chuyển về dạng
                         String json = new Gson().toJson(userInfo);
+                        //lưu lại token
                         PreferenceUtils.setToken(LoginActivity.this, userInfo.getToken());
+                        //lưu lại thông tin user
                         PreferenceUtils.setUserInfo(LoginActivity.this, json);
                         setResult(RESULT_OK);
                         finish();

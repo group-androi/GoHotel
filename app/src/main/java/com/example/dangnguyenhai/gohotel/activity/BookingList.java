@@ -27,6 +27,7 @@ public class BookingList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booking_list_activity);
         rcvMyBooking = findViewById(R.id.rcvMyBooking);
+        // mỗi một recyclerview sẽ được quản lý bằng layout manager
         rcvMyBooking.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rcvMyBooking.setHasFixedSize(true);
     }
@@ -38,12 +39,16 @@ public class BookingList extends AppCompatActivity {
     }
 
     private void getMyBooking() {
+        //danh sách booking
         GoHotelApplication.serviceApi.getMyBooking(PreferenceUtils.getToken(this)).enqueue(new Callback<List<BookingUserForm>>() {
             @Override
             public void onResponse(Call<List<BookingUserForm>> call, Response<List<BookingUserForm>> response) {
                 if (response.code() == 200) {
+                    //list danh sach boooking trong responese.body
                     bookingUserForms = response.body();
                     if (bookingUserForms != null && bookingUserForms.size() > 0) {
+                        // adapter để hung dữ liệu để hiện từng dòng
+                        //adapter dung de quản lý view
                         rcvMyBooking.setAdapter(new MyBookingAdapter(BookingList.this, bookingUserForms));
                     }
                 }

@@ -43,6 +43,7 @@ public class BookingDetail extends AppCompatActivity {
                 cancelBooking();
             }
         });
+        // dùng intent để lấy booking id
         if (getIntent() != null && getIntent().getExtras() != null) {
             bookingId = getIntent().getExtras().getInt("BookingID");
             getBookingDetail();
@@ -69,6 +70,7 @@ public class BookingDetail extends AppCompatActivity {
     }
 
     private void getBookingDetail() {
+        // lấy thông tin booking
         GoHotelApplication.serviceApi.getBookingDetail(bookingId).enqueue(new Callback<List<BookingUserForm>>() {
             @Override
             public void onResponse(Call<List<BookingUserForm>> call, Response<List<BookingUserForm>> response) {
@@ -96,10 +98,13 @@ public class BookingDetail extends AppCompatActivity {
         tvHotelTitle.setText(bookingUserForm.getNameHotel());
         tvBookingId.setText(String.valueOf(bookingUserForm.getIdBook()));
         tvRoomType.setText(bookingUserForm.getNameRoom());
+
+
         tvBookingTime.setText(String.format("%s ~ %s", AppTimeUtils.changeDateShowClient(bookingUserForm.getDateStart()), AppTimeUtils.changeDateShowClient(bookingUserForm.getDateEnd())));
         tvTimeBook.setText(AppTimeUtils.changeTimeShowClient(bookingUserForm.getTimeBook()));
         tvTotalPayment.setText(Utils.formatCurrency(bookingUserForm.getPrice()));
         btnCancelBooking.setVisibility(View.GONE);
+
         if (bookingUserForm.getStatus() == 0) {
             btnCancelBooking.setVisibility(View.VISIBLE);
             tvStatus.setText("Đã đặt");
