@@ -19,7 +19,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.dangnguyenhai.gohotel.Asyntask.CheckInternetAsync;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.dialog.DialogUtils;
+import com.example.dangnguyenhai.gohotel.dialog.RequestNetwork;
+import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -69,6 +73,12 @@ public class SplashScreen extends AppCompatActivity {
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        checkingNetwork();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
@@ -94,6 +104,32 @@ public class SplashScreen extends AppCompatActivity {
         createLocationCallback();
         createLocationRequest();
         buildLocationSettingsRequest();
+
+    }
+
+    private void checkingNetwork() {
+        new CheckInternetAsync(SplashScreen.this, result -> {
+
+            switch (result) {
+                //successful
+
+                //
+                case ParamConstants.NO_INTERNET:
+                    try {
+                        DialogUtils.showNetworkError(SplashScreen.this, this::checkingNetwork);
+                    } catch (Exception e) {
+                    }
+                    break;
+                case ParamConstants.NO_WIFI:
+                    //DialogUtils.showNetworkConfirm(SplashActivity.this);
+                    try {
+                        RequestNetwork.show(SplashScreen.this);
+                    } catch (Exception ignored) {
+                    }
+                    break;
+            }
+        }).execute();
+
 
     }
 
@@ -184,33 +220,30 @@ public class SplashScreen extends AppCompatActivity {
                                 mLocationCallback, Looper.myLooper());
                         mRequestingLocationUpdates = false;
                     }
-                }).addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                int statusCode = ((ApiException) e).getStatusCode();
-                switch (statusCode) {
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        Log.i("BaseActivity", "Location settings are not satisfied. Attempting to upgrade " +
-                                "location settings ");
-                        try {
-                            // Show the dialog by calling startResolutionForResult(), and check the
-                            // result in onActivityResult().
+                }).addOnFailureListener(this, e -> {
+                    int statusCode = ((ApiException) e).getStatusCode();
+                    switch (statusCode) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            Log.i("BaseActivity", "Location settings are not satisfied. Attempting to upgrade " +
+                                    "location settings ");
+                            try {
+                                // Show the dialog by calling startResolutionForResult(), and check the
+                                // result in onActivityResult().
+                                mRequestingLocationUpdates = false;
+                                ResolvableApiException rae = (ResolvableApiException) e;
+                                rae.startResolutionForResult(SplashScreen.this, REQUEST_CHECK_SETTINGS);
+
+
+                            } catch (IntentSender.SendIntentException sie) {
+                                Log.i("BaseActivity", "PendingIntent unable to execute request.");
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                             mRequestingLocationUpdates = false;
-                            ResolvableApiException rae = (ResolvableApiException) e;
-                            rae.startResolutionForResult(SplashScreen.this, REQUEST_CHECK_SETTINGS);
+                    }
 
-
-                        } catch (IntentSender.SendIntentException sie) {
-                            Log.i("BaseActivity", "PendingIntent unable to execute request.");
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        mRequestingLocationUpdates = false;
-                }
-
-                updateLocationUI();
-            }
-        });
+                    updateLocationUI();
+                });
     }
 
 
@@ -331,5 +364,9 @@ public class SplashScreen extends AppCompatActivity {
         intent.putExtra("address", newAddress);
         startActivity(intent);
         finish();
+    }
+
+    public interface OnTaskCompleted {
+        void onCheckingInternetComplete(int result);
     }
 }

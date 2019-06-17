@@ -1,7 +1,5 @@
 package com.example.dangnguyenhai.gohotel.utils;
 
-import android.os.Bundle;
-
 public class ParamConstants {
 
     public static final int REQUEST_SIGNUP_LOGIN = 1000;
@@ -13,7 +11,6 @@ public class ParamConstants {
     public static final int PING_SUCCESSFULLY = 1;
     public static final int NO_INTERNET = 2;
     public static final int NO_WIFI = 3;
-
 
 
     public static final String PACKAGE_NAME =
@@ -32,4 +29,6 @@ public class ParamConstants {
     public static final int REQUEST_MAIN_LOGIN = 4000;
     public static final int REQUEST_CHANGE_PROFILE = 5000;
     public static final int REQUEST_CHANGE_PASS = 6000;
+
+
 }

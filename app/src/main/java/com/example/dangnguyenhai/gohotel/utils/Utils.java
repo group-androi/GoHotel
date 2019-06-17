@@ -8,8 +8,14 @@ import android.graphics.NinePatch;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -101,6 +107,30 @@ public class Utils {
             return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         } else {
             return 0;
+        }
+    }
+
+    public static boolean isOpenWifi(Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connMgr != null) {
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            return (networkInfo != null && networkInfo.isConnected());
+        } else {
+            return false;
+        }
+    }
+
+    //ping Google
+    public static boolean isInternetWork() {
+        try {
+            int timeoutMs = 2000;
+            Socket sock = new Socket();
+            SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
+            sock.connect(sockaddr, timeoutMs);
+            sock.close();
+            return true;
+        } catch (IOException e) {
+            return false;
         }
     }
 }
