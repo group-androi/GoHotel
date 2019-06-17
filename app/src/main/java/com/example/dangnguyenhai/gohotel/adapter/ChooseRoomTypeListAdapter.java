@@ -53,7 +53,6 @@ public class ChooseRoomTypeListAdapter extends RecyclerView.Adapter<ChooseRoomTy
             holder.tvRoomName.setTextColor(resources.getColor(R.color.colorPrimary));
         } else {
             holder.tvRoomName.setTextColor(resources.getColor(R.color.colorBlack));
-
         }
         RoomTypeForm roomTypeForm = roomTypeFormList.get(position);
         holder.tvRoomName.setText(roomTypeForm.getName());

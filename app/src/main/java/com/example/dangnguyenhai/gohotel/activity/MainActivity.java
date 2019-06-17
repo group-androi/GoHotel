@@ -18,6 +18,7 @@ import com.example.dangnguyenhai.gohotel.Fragments.MapFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.MyPageFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.SearchFragment;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.dialog.DialogReviewHotel;
 import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 
@@ -52,7 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addViews();
         changeTab(TypeFragment.HOME.getType());
         //addFragment(savedInstanceState);
-
+        for (int i = 0; i < 5; i++) {
+            DialogReviewHotel dialogReviewHotel = new DialogReviewHotel();
+            dialogReviewHotel.showRatingReviewHotel(this);
+        }
         handleMainActivity();
     }
 
@@ -304,6 +308,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+            case ParamConstants.REQUEST_SORT_FILTER:
+                if (RESULT_OK == resultCode) {
+                    if (data != null && data.getExtras() != null) {
+                        Bundle bundle = data.getExtras();
+                        int typeSort = bundle.getInt("typeSort", 0);
+                        int priceStart = bundle.getInt("priceStart", 0);
+                        int priceEnd = bundle.getInt("priceEnd", 3000000);
+                        homeFragment.setPriceStart(priceStart);
+                        homeFragment.setPriceEnd(priceEnd);
+                        homeFragment.setTypeSort(typeSort);
+                        homeFragment.resetHotel();
+                        if (typeSort == 0)
+                            homeFragment.getHotelByDistance();
+                        else if (typeSort == 1)
+                            homeFragment.getHotelByPriceASC();
+                        else if (typeSort == 2)
+                            homeFragment.getHotelByPriceDESC();
+                        else if (typeSort == 3)
+                            homeFragment.getHotelByRating();
+                    }
+                }
+                break;
             case ParamConstants.REQUEST_CHOOSE_AREA_HOME:
                 if (RESULT_OK == resultCode) {
                     if (data != null && data.getExtras() != null) {
@@ -313,12 +339,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String cityName = bundle.getString("cityName", "");
                         int district = bundle.getInt("districtKey", -1);
                         String districtName = bundle.getString("districtName", "");
-                        if (city != -1 && !cityName.isEmpty() && district != -1 && !districtName.isEmpty())
-                            homeFragment.getHotelCityDistrict(city, district, districtName);
-                        else if (city != -1 && !cityName.isEmpty())
-                            homeFragment.getHotelCity(city, cityName);
+                        homeFragment.resetHotel();
+                        if (city != -1 && !cityName.isEmpty() && district != -1 && !districtName.isEmpty()) {
+                            homeFragment.setCity(city);
+                            homeFragment.setProvine(districtName);
+                            homeFragment.setDistrict(district);
+                        } else if (city != -1 && !cityName.isEmpty()) {
+                            homeFragment.setCity(city);
+                            homeFragment.setProvine(cityName);
+                            homeFragment.setDistrict(0);
+                        } else {
+                            homeFragment.setProvine("Tất cả hotel");
+                            homeFragment.setCity(0);
+                            homeFragment.setDistrict(0);
+                        }
 
+                    } else {
+                        homeFragment.resetHotel();
+                        homeFragment.setProvine("Tất cả hotel");
+                        homeFragment.setCity(0);
+                        homeFragment.setDistrict(0);
                     }
+                    int typeSort = homeFragment.getTypeSort();
+                    if (typeSort == 0)
+                        homeFragment.getHotelByDistance();
+                    else if (typeSort == 1)
+                        homeFragment.getHotelByPriceASC();
+                    else if (typeSort == 2)
+                        homeFragment.getHotelByPriceDESC();
+                    else if (typeSort == 3)
+                        homeFragment.getHotelByRating();
                 }
                 break;
             case ParamConstants.REQUEST_CHOOSE_AREA_MAP:
@@ -342,9 +392,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case ParamConstants.REQUEST_CHANGE_PASS:
-                if(RESULT_OK == resultCode){
-                    PreferenceUtils.setUserInfo(this,"");
-                    PreferenceUtils.setToken(this,"");
+                if (RESULT_OK == resultCode) {
+                    PreferenceUtils.setUserInfo(this, "");
+                    PreferenceUtils.setToken(this, "");
                     changeTab(TypeFragment.MYPAGE.getType());
                 }
                 break;

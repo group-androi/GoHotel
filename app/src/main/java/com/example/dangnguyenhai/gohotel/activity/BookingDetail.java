@@ -37,12 +37,7 @@ public class BookingDetail extends AppCompatActivity {
         tvTotalPayment = findViewById(R.id.tvTotalPayment);
         tvStatus = findViewById(R.id.tvStatus);
         btnCancelBooking = findViewById(R.id.btnCancelBooking);
-        btnCancelBooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancelBooking();
-            }
-        });
+        btnCancelBooking.setOnClickListener(view -> cancelBooking());
         // dùng intent để lấy booking id
         if (getIntent() != null && getIntent().getExtras() != null) {
             bookingId = getIntent().getExtras().getInt("BookingID");

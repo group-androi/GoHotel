@@ -42,7 +42,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
         HotelForm hotelForm = hotelForms.get(position);
         holder.tvHotelName.setText(hotelForm.getNameHotel());
         holder.tvAddress.setText(hotelForm.getAddress());
-        holder.tvPriceDiscount.setText(Utils.formatCurrency(hotelForm.getPriceRoomPerDay()) + " đồng");
+        holder.tvPriceDiscount.setText(String.format("%s đồng", Utils.formatCurrency(hotelForm.getPriceRoomPerDay())));
         RequestOptions requestOptions = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.loading_big)

@@ -12,9 +12,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,9 @@ public class HotelDetailActivity extends AppCompatActivity {
     private TextView tvHotelName, tvAddress, tvAmountImage;
     private List<HotelImageForm> hotelImageForms;
     private int hotelId;
+    private ImageView btnBack;
+    private Button btnBook;
+    private List<RoomTypeForm> roomTypeForms;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +70,15 @@ public class HotelDetailActivity extends AppCompatActivity {
     }
 
     private void setViews() {
+        btnBook = findViewById(R.id.btnBook);
+        btnBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bookRoom();
+            }
+        });
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(view -> onBackPressed());
         tvAmountImage = findViewById(R.id.tvAmountImage);
         tvAddress = findViewById(R.id.tvAddress);
         tvHotelName = findViewById(R.id.tvHotelName);
@@ -102,6 +117,16 @@ public class HotelDetailActivity extends AppCompatActivity {
         gethotelDetail();
         getImageHotel();
         getRoomHotel();
+    }
+
+    private void bookRoom() {
+        if(roomTypeForms!=null&&roomTypeForms.size()>0){
+            Intent intent = new Intent(HotelDetailActivity.this, ReservationActivity.class);
+            intent.putExtra("hotelId", roomTypeForms.get(0).getHotelId());
+            intent.putExtra("roomId", roomTypeForms.get(0).getId());
+            startActivity(intent);
+        }
+
     }
 
 
@@ -169,6 +194,7 @@ public class HotelDetailActivity extends AppCompatActivity {
     }
 
     private void handleRoomTypeHotel(List<RoomTypeForm> roomTypeForms) {
+        this.roomTypeForms = roomTypeForms;
         roomTypeAdapter = new RoomTypeAdapter(this, roomTypeForms, new RoomTypeAdapter.RoomtypeCallback() {
             @Override
             public void onItemClick(RoomTypeForm roomTypeForm) {

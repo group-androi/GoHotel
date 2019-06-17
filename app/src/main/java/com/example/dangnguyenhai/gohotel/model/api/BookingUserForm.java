@@ -29,6 +29,9 @@ public class BookingUserForm {
     @SerializedName("time_book")
     @Expose
     private String timeBook;
+    @SerializedName("link_image")
+    @Expose
+    private String linkImage;
     @SerializedName("phone")
     @Expose
     private String phone;
@@ -125,5 +128,13 @@ public class BookingUserForm {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getLinkImage() {
+        return linkImage;
+    }
+
+    public void setLinkImage(String linkImage) {
+        this.linkImage = linkImage;
     }
 }

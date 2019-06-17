@@ -27,7 +27,7 @@ public interface ServiceApi {
     @POST("/API_GoHotel/user/create.php")
     @FormUrlEncoded
     Call<ResponseUserCreate> createUser(@Field("phone") String phone, @Field("password") String password
-            , @Field("birthday") String birthday,@Field("mail") String mail, @Field("gender") String gender, @Field("device_id") String device_id
+            , @Field("birthday") String birthday, @Field("mail") String mail, @Field("gender") String gender, @Field("device_id") String device_id
             , @Header("token") String token);
 
     @POST("/API_GoHotel/user/checkEqualPhone.php")
@@ -59,12 +59,14 @@ public interface ServiceApi {
     @FormUrlEncoded
     Call<List<HotelImageForm>> getImageHotel(@Field("hotel") int hotel);
 
+
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
     Call<List<HotelForm>> getHotelHomeDistance(@Field("latitude") String latitude
             , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
-            , @Field("limitcount") int limitcount, @Field("price_start") int price_start, @Field("price_end") int price_end
-            , @Field("sort_distance") String sort_distance);
+            , @Field("limitcount") int limitcount, @Field("city_id") int city_id
+            , @Field("district_id") int district_id, @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_distance ") String sort_distance );
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
@@ -72,8 +74,15 @@ public interface ServiceApi {
             , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
             , @Field("limitcount") int limitcount, @Field("city_id") int city_id
             , @Field("price_start") int price_start, @Field("price_end") int price_end
-            , @Field("sort_distance") String sort_distance);
+            , @Field("sort_distance ") String sort_distance );
 
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHomeDistance(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount
+            , @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_distance ") String sort_distance );
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
@@ -85,11 +94,37 @@ public interface ServiceApi {
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
-    Call<List<HotelForm>> getHotelHomeDistance(@Field("latitude") String latitude
+    Call<List<HotelForm>> getHotelHomeStar(@Field("latitude") String latitude
             , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
             , @Field("limitcount") int limitcount, @Field("city_id") int city_id
-            , @Field("district_id") int district_id, @Field("price_start") int price_start, @Field("price_end") int price_end
-            , @Field("sort_distance") String sort_distance);
+            , @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_star") String sort_star);
+
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHomeStar(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount
+            , @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_star") String sort_star);
+
+
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHome(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount
+            , @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_price") String sort_price);
+
+    @POST("/API_GoHotel/hotel/getHotelHome.php")
+    @FormUrlEncoded
+    Call<List<HotelForm>> getHotelHome(@Field("latitude") String latitude
+            , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
+            , @Field("limitcount") int limitcount, @Field("city_id") int city_id
+            , @Field("price_start") int price_start, @Field("price_end") int price_end
+            , @Field("sort_price") String sort_price);
+
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
@@ -117,27 +152,30 @@ public interface ServiceApi {
 
     @POST("/API_GoHotel/book/create.php")
     @FormUrlEncoded
-    Call<BookRes> bookRoom(@Field("hotel_id") int hotel_id, @Field("room_id") int room_id, @Field("date_start") String date_start, @Field("date_end") String date_end, @Field("price") int price, @Field("time_book") String time_book, @Field("phone") String phone, @Field("info_user") String info_user,@Header("token") String token);
+    Call<BookRes> bookRoom(@Field("hotel_id") int hotel_id, @Field("room_id") int room_id, @Field("date_start") String date_start, @Field("date_end") String date_end, @Field("price") int price, @Field("time_book") String time_book, @Field("phone") String phone, @Field("info_user") String info_user, @Header("token") String token);
 
     @POST("/API_GoHotel/book/get.php")
     @FormUrlEncoded
     Call<List<BookingUserForm>> getBookingDetail(@Field("id") int bookingId);
 
+    @POST("/API_GoHotel/book/get.php")
+    @FormUrlEncoded
+    Call<List<BookingUserForm>> getBookingDetailByStatus(@Field("status") int status);
 
     @POST("/API_GoHotel/book/getAccordingToToken.php")
     Call<List<BookingUserForm>> getMyBooking(@Header("token") String token);
 
     @POST("/API_GoHotel/book/update.php")
     @FormUrlEncoded
-    Call<BookRes> updateBookingDetail(@Field("id") int bookingId,@Field("status") int status);
+    Call<BookRes> updateBookingDetail(@Field("id") int bookingId, @Field("status") int status);
 
 
     @POST("/API_GoHotel/user/update.php")
     @FormUrlEncoded
-    Call<BookRes> updateUser(@Header("token") String token,@Field("phone") String phone,@Field("pass") String pass,@Field("gender") String gender,@Field("mail") String mail,@Field("birthday") String birthday);
+    Call<BookRes> updateUser(@Header("token") String token, @Field("phone") String phone, @Field("pass") String pass, @Field("gender") String gender, @Field("mail") String mail, @Field("birthday") String birthday);
 
     @POST("/API_GoHotel/user/changePassword.php")
     @FormUrlEncoded
-    Call<BookRes> changePassword(@Header("token") String token,@Field("phone") String phone,@Field("password_old") String password_old,@Field("password_new") String password_new);
+    Call<BookRes> changePassword(@Header("token") String token, @Field("phone") String phone, @Field("password_old") String password_old, @Field("password_new") String password_new);
 
 }

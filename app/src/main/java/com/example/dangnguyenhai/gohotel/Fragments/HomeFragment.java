@@ -46,6 +46,39 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private int priceStart;
     private int priceEnd = 3000000;
     private int typeSort = 0;
+    private int city = 0;
+    private String provine;
+
+    public int getCity() {
+        return city;
+    }
+
+    public void setCity(int city) {
+        this.city = city;
+    }
+
+    public int getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(int district) {
+        this.district = district;
+    }
+
+    private int district = 0;
+
+    public int getPriceStart() {
+        return priceStart;
+    }
+
+    public int getPriceEnd() {
+        return priceEnd;
+    }
+
+    public void setPriceEnd(int priceEnd) {
+        this.priceEnd = priceEnd;
+    }
+
     TextView tvChooseArea;
 
     public static HomeFragment newInstance(String address) {
@@ -56,6 +89,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         myFragment.setArguments(args);
 
         return myFragment;
+    }
+
+    public void resetHotel() {
+        hotelForms = new ArrayList<>();
+        offset = 0;
+        if (hotelAdapter != null) {
+            hotelAdapter.notifyDataSetChanged();
+            hotelAdapter = null;
+        }
     }
 
     @Override
@@ -101,7 +143,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void getHotelHome() {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
-
         GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
@@ -117,7 +158,173 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
+    public void getHotelByPriceDESC() {
+        if (district != 0) {
+            getHotelByPriceDESCAndDistrict();
+        } else if (city != 0) {
+            getHotelByPriceDESCAndCity();
+        } else getHotelByPriceDESCAndAllHotel();
+    }
+
+    private void getHotelByPriceDESCAndAllHotel() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getHotelByPriceDESCAndCity() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getHotelByPriceDESCAndDistrict() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, city, district, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void getHotelByPriceASC() {
+        if (district != 0) {
+            getHotelByPriceASCAndDistrict();
+        } else if (city != 0) {
+            getHotelByPriceASCAndCity();
+        } else getHotelByPriceASCAndAllHotel();
+    }
+
+    public void getHotelByPriceASCAndAllHotel() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void getHotelByPriceASCAndCity() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void getHotelByPriceASCAndDistrict() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, city, district, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -129,12 +336,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if (hotelAdapter != null) {
             hotelAdapter.notifyItemRangeInserted(offset, hotelForms.size());
         } else {
-            hotelAdapter = new HotelAdapter(context, this.hotelForms, new HotelAdapter.HotelAdapterCallback() {
-                @Override
-                public void onItemClick(HotelForm hotelForm) {
-                    gotoHotelDetail(hotelForm);
-                }
-            });
+            hotelAdapter = new HotelAdapter(context, this.hotelForms, this::gotoHotelDetail);
             rcvHotel.setAdapter(hotelAdapter);
         }
         offset = this.hotelForms.size();
@@ -155,14 +357,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void getHotelCity(int city, String cityName) {
-        tvChooseArea.setText(cityName);
+    private void gotoSortFilter() {
+        Intent intent = new Intent(getContext(), SortFilterActivity.class);
+        getActivity().startActivityForResult(intent, ParamConstants.REQUEST_SORT_FILTER);
+    }
+
+    public void setPriceStart(int priceStart) {
+        this.priceStart = priceStart;
+    }
+
+    public int getTypeSort() {
+        return typeSort;
+    }
+
+    public void setTypeSort(int typeSort) {
+        this.typeSort = typeSort;
+    }
+
+    public void getHotelByRating() {
+        if (district != 0) {
+            getHotelByRatingAndDistrict();
+        } else if (city != 0) {
+            getHotelByRatingAndCity();
+        } else getHotelByRatingAndAllHotel();
+    }
+
+    private void getHotelByRatingAndCity() {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
-        hotelForms.clear();
-        hotelAdapter = null;
-        offset = 0;
-        GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
+
+
+        GoHotelApplication.serviceApi.getHotelHomeStar(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
                 if (response.code() == 200) {
@@ -177,23 +402,132 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
-
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void gotoSortFilter() {
-        Intent intent = new Intent(getContext(), SortFilterActivity.class);
-        startActivity(intent);
-    }
-
-    public void getHotelCityDistrict(int city, int district, String districtName) {
-        tvChooseArea.setText(districtName);
+    private void getHotelByRatingAndAllHotel() {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
-        hotelForms.clear();
-        hotelAdapter = null;
-        offset = 0;
+
+
+        GoHotelApplication.serviceApi.getHotelHomeStar(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getHotelByRatingAndDistrict() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHomeStar(lat, longtidue, offset, GoHotelApplication.limit, city, district, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public String getProvine() {
+        return provine;
+    }
+
+    public void setProvine(String provine) {
+        this.provine = provine;
+    }
+
+    public void getHotelByDistance() {
+        if (district != 0) {
+            getHotelByDistanceAndDistrict();
+        } else if (city != 0) {
+            getHotelByDistanceAndCity();
+        } else getHotelByDistanceAndAllHotel();
+    }
+
+    private void getHotelByDistanceAndAllHotel() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getHotelByDistanceAndCity() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
+        GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
+            @Override
+            public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                if (response.code() == 200) {
+                    List<HotelForm> hotelForms = response.body();
+                    if (hotelForms != null && hotelForms.size() > 0) {
+                        handleListHotel(hotelForms);
+                    }
+                } else {
+                    Toast.makeText(context, "Không thể lấy danh sách khách sạn", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getHotelByDistanceAndDistrict() {
+        String lat = PreferenceUtils.getLatLocation(context);
+        String longtidue = PreferenceUtils.getLongLocation(context);
+
+
         GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, city, district, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
@@ -209,8 +543,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
-
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
+
 }

@@ -67,6 +67,7 @@ public class ReservationActivity extends AppCompatActivity implements ChooseRoom
     private int roomtypeIndex;
     private LinearLayout layoutBkTranfer, bottomsheet, btnChooseRoom, btnStartDate, btnEndDate;
     private Button btnBook;
+    private ImageView btnBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,13 +89,10 @@ public class ReservationActivity extends AppCompatActivity implements ChooseRoom
             hotelId = bundle.getInt("hotelId", 0);
             roomId = bundle.getInt("roomId", 0);
         }
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(view -> onBackPressed());
         btnBook = findViewById(R.id.btnBook);
-        btnBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bookRoom();
-            }
-        });
+        btnBook.setOnClickListener(view -> bookRoom());
         tvHotelName = findViewById(R.id.tvHotelName);
         tvCheckIn = findViewById(R.id.tvCheckIn);
         tvCheckOut = findViewById(R.id.tvCheckOut);

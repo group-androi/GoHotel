@@ -17,7 +17,7 @@ import com.example.dangnguyenhai.gohotel.widgets.OnRangeChangedListener;
 import com.example.dangnguyenhai.gohotel.widgets.RangeSeekBar;
 
 public class SortFilterActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private TextView btnApply;
     private Resources resources;
     private ImageView btnBack;
     private TextView tvDistance, tvPriceAsc, tvPriceDesc, tvRanting;
@@ -25,7 +25,10 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
     private LinearLayout btnDistance, btnPriceAsc, btnPriceDesc, btnRating;
     private RangeSeekBar sbRange;
     private TextView tvPriceTo;
-    private TextView tvPriceFrom,btnClear;
+    private TextView tvPriceFrom, btnClear;
+    private int typeSort;
+    private int priceStart, priceEnd;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,8 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
         imgPriceAsc = findViewById(R.id.imgPriceAsc);
         imgPriceDesc = findViewById(R.id.imgPriceDesc);
         imgRating = findViewById(R.id.imgRating);
-
+        btnApply = findViewById(R.id.btnApply);
+        btnApply.setOnClickListener(this);
         btnDistance = findViewById(R.id.btnDistance);
         btnDistance.setOnClickListener(this);
         btnPriceAsc = findViewById(R.id.btnPriceAsc);
@@ -53,11 +57,14 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
         sbRange = findViewById(R.id.sbRange);
         sbRange.setRange(0, 30);
         sbRange.setValue(0, 30);
+        priceEnd = 3000000;
         // bắt sự kiện thay đổi giá
         sbRange.setOnRangeChangedListener(new OnRangeChangedListener() {
             @Override
             public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
                 if (isFromUser) {
+                    priceStart = ((int) leftValue) * 100000;
+                    priceEnd = ((int) rightValue) * 100000;
                     tvPriceFrom.setText(Utils.formatCurrency(((int) leftValue) * 100000));
                     tvPriceTo.setText(Utils.formatCurrency((int) rightValue * 100000));
                 }
@@ -74,7 +81,7 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
         });
         tvPriceFrom = findViewById(R.id.tvPriceFrom);
         tvPriceTo = findViewById(R.id.tvPriceTo);
-        btnClear=findViewById(R.id.btnClear);
+        btnClear = findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -86,6 +93,7 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
     private void chooseSort(int i) {
         switch (i) {
             case 0:
+                typeSort = 0;
                 tvDistance.setTextColor(resources.getColor(R.color.colorPrimary));
                 tvPriceAsc.setTextColor(resources.getColor(R.color.colorDefault));
                 tvPriceDesc.setTextColor(resources.getColor(R.color.colorDefault));
@@ -98,6 +106,7 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case 1:
+                typeSort = 1;
                 tvPriceAsc.setTextColor(resources.getColor(R.color.colorPrimary));
                 tvDistance.setTextColor(resources.getColor(R.color.colorDefault));
                 tvPriceDesc.setTextColor(resources.getColor(R.color.colorDefault));
@@ -110,6 +119,7 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case 2:
+                typeSort = 2;
                 tvPriceDesc.setTextColor(resources.getColor(R.color.colorPrimary));
                 tvPriceAsc.setTextColor(resources.getColor(R.color.colorDefault));
                 tvDistance.setTextColor(resources.getColor(R.color.colorDefault));
@@ -122,6 +132,7 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case 3:
+                typeSort = 3;
                 tvRanting.setTextColor(resources.getColor(R.color.colorPrimary));
                 tvPriceAsc.setTextColor(resources.getColor(R.color.colorDefault));
                 tvPriceDesc.setTextColor(resources.getColor(R.color.colorDefault));
@@ -139,6 +150,9 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.btnApply:
+                apply();
+                break;
             case R.id.btnBack:
                 onBackPressed();
                 break;
@@ -159,16 +173,18 @@ public class SortFilterActivity extends AppCompatActivity implements View.OnClic
                 sbRange.setValue(0, 30);
                 tvPriceFrom.setText(Utils.formatCurrency(0));
                 tvPriceTo.setText(Utils.formatCurrency(30 * 100000));
+                priceStart = 0;
+                priceEnd = 30 * 100000;
                 break;
         }
     }
 
-    private void apply(){
-        Intent intent=new Intent();
-        intent.putExtra("khoangcach",0);
-        intent.putExtra("priceStart",0);
-        intent.putExtra("priceEnd",3000000);
-        setResult(RESULT_OK,intent);
+    private void apply() {
+        Intent intent = new Intent();
+        intent.putExtra("typeSort", typeSort);
+        intent.putExtra("priceStart", priceStart);
+        intent.putExtra("priceEnd", priceEnd);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

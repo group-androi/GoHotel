@@ -1,6 +1,7 @@
 package com.example.dangnguyenhai.gohotel.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.activity.HotelDetailActivity;
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
 import com.example.dangnguyenhai.gohotel.utils.Utils;
 
@@ -67,8 +69,13 @@ public class HotelMapAdapter extends RecyclerView.Adapter<HotelMapAdapter.ViewHo
                 .transition(withCrossFade())
                 .into(holder.imgItem);
         holder.tvHotelName.setText(hotelForm.getNameHotel());
+        holder.tvReview.setText(String.valueOf(hotelForm.getCountStar()));
         holder.tvPrice.setText(String.format("%s VND", Utils.formatCurrency(hotelForm.getPriceRoomPerDay())));
-
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, HotelDetailActivity.class);
+            intent.putExtra("hotelKey", hotelForm.getIdHotel());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -80,10 +87,11 @@ public class HotelMapAdapter extends RecyclerView.Adapter<HotelMapAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout layoutImg;
         ImageView imgItem;
-        TextView tvHotelName,tvPrice;
+        TextView tvHotelName, tvPrice, tvReview;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            tvReview = itemView.findViewById(R.id.tvReview);
             layoutImg = itemView.findViewById(R.id.layoutImg);
             imgItem = itemView.findViewById(R.id.imgItem);
             tvHotelName = itemView.findViewById(R.id.tvHotelName);

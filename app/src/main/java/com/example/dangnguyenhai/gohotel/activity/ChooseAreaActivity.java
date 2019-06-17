@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
     TextView btnApply;
     private DistrictForm district;
     private CityForm city;
+    private ImageView btnBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,8 +124,11 @@ public class ChooseAreaActivity extends AppCompatActivity {
             }
         });
     }
+
     // ánh xạ layout để xử lý
     private void addview() {
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(view -> onBackPressed());
         btnApply = findViewById(R.id.btnApply);
         lvProvinces = findViewById(R.id.lvProvinces);
         lvProvinces.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
