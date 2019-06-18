@@ -1,6 +1,5 @@
 package com.example.dangnguyenhai.gohotel.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
@@ -20,9 +19,20 @@ import com.example.dangnguyenhai.gohotel.Fragments.MyPageFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.SearchFragment;
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.dialog.DialogConfirmHotel;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.dialog.DialogReviewHotel;
+import com.example.dangnguyenhai.gohotel.model.api.BookingUserForm;
 import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,24 +65,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addViews();
         changeTab(TypeFragment.HOME.getType());
         //addFragment(savedInstanceState);
-        for (int i = 0; i < 5; i++) {
-            DialogReviewHotel dialogReviewHotel = new DialogReviewHotel();
-            dialogReviewHotel.showRatingReviewHotel(this);
+
+        getBookingDetailByStatus();
+        getBookingNotCheckInByStatus();
+    }
+
+    private void getBookingNotCheckInByStatus() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+        String yesterday = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+        DialogLoadingProgress.getInstance().show(this);
+
+        GoHotelApplication.serviceApi.getBookingDetailByStatus(GoHotelApplication.DEVICE_ID, 0, yesterday).enqueue(new Callback<List<BookingUserForm>>() {
+            @Override
+            public void onResponse(Call<List<BookingUserForm>> call, Response<List<BookingUserForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
+                if (response.code() == 200) {
+                    List<BookingUserForm> bookingUserForms = response.body();
+                    if (bookingUserForms != null && bookingUserForms.size() > 0) {
+                        handleDialogConfirm(bookingUserForms);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BookingUserForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
+            }
+        });
+    }
+
+    private void handleDialogConfirm(List<BookingUserForm> bookingUserForms) {
+        int idBook = -1;
+
+        for (int i = 0; i < bookingUserForms.size(); i++) {
+            if (idBook != bookingUserForms.get(i).getIdBook() ) {
+                DialogConfirmHotel dialogReviewHotel = new DialogConfirmHotel();
+                dialogReviewHotel.showConfirmHotel(this, bookingUserForms.get(i));
+                idBook = bookingUserForms.get(i).getIdBook();
+            }
         }
-        handleMainActivity();
     }
-
-    private void addFragment(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            SearchFragment newFragment = SearchFragment.newInstance();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.frLayout, newFragment).commit();
-        }
-    }
-
-    private void handleMainActivity() {
-    }
-
 
     private void addViews() {
         rltHome = findViewById(R.id.rltHome);
@@ -101,9 +136,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void getBookingDetailByStatus(){
-//        String date=
-//        GoHotelApplication.serviceApi.getBookingDetailByStatus(0,)
+    private void getBookingDetailByStatus() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        String yesterday = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+        DialogLoadingProgress.getInstance().show(this);
+
+        GoHotelApplication.serviceApi.getBookingDetailByStatus(GoHotelApplication.DEVICE_ID, 1, yesterday).enqueue(new Callback<List<BookingUserForm>>() {
+            @Override
+            public void onResponse(Call<List<BookingUserForm>> call, Response<List<BookingUserForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
+                if (response.code() == 200) {
+                    List<BookingUserForm> bookingUserForms = response.body();
+                    if (bookingUserForms != null && bookingUserForms.size() > 0) {
+                        handleDialogCheckIn(bookingUserForms);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BookingUserForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
+            }
+        });
+    }
+
+    private void handleDialogCheckIn(List<BookingUserForm> bookingUserForms) {
+        int idBook = -1;
+        for (int i = 0; i < bookingUserForms.size(); i++) {
+            if (idBook != bookingUserForms.get(i).getIdBook() && bookingUserForms.get(i).getReviewed() == null) {
+                DialogReviewHotel dialogReviewHotel = new DialogReviewHotel();
+                dialogReviewHotel.showRatingReviewHotel(this, bookingUserForms.get(i));
+                idBook = bookingUserForms.get(i).getIdBook();
+            }
+        }
     }
 
     @Override
@@ -130,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                   getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
                 }
             }
 

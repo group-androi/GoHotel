@@ -1,6 +1,7 @@
 package com.example.dangnguyenhai.gohotel.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
 import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
@@ -34,6 +36,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+            }
+        }
         inputLayoutPassword = findViewById(R.id.inputLayoutPassword);
         inputLayoutPhone = findViewById(R.id.inputLayoutPhone);
         btnClose = findViewById(R.id.btnClose);
@@ -123,9 +130,13 @@ public class LoginActivity extends AppCompatActivity {
         String phone = edtPhone.getText().toString();
         String pass = edtPassword.getText().toString();
         // gọi api
+        DialogLoadingProgress.getInstance().show(this);
+
         GoHotelApplication.serviceApi.login(phone, pass).enqueue(new Callback<UserInfo>() {
             @Override
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {//json trả về trong body
                     UserInfo userInfo = response.body();
                     if (userInfo != null) {
@@ -146,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserInfo> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

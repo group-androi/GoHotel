@@ -8,9 +8,12 @@ import android.graphics.NinePatch;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
+
+import com.example.dangnguyenhai.gohotel.model.HotelForm;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -132,5 +135,44 @@ public class Utils {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public static Location getLocationFromPref(Context context) {
+        Location prefLocation = new Location("gps");
+        try {
+            prefLocation.setLatitude(Double.parseDouble(PreferenceUtils.getLatLocation(context)));
+            prefLocation.setLongitude(Double.parseDouble(PreferenceUtils.getLongLocation(context)));
+            return prefLocation;
+        } catch (Exception e) {
+            return null;
+
+        }
+    }
+
+    public static String meterToKm(float distance) {
+        String distanceStr;
+        if (distance > 1000) {
+            distanceStr = String.format(Locale.getDefault(), "%.1f", (distance / 1000)) + " km";
+        } else {
+            distanceStr = Integer.toString((int) distance) + "m";
+        }
+        return distanceStr;
+    }
+
+    public static float calculateDistance(HotelForm hotel, Context context) {
+        float distance = 0;
+        if (hotel != null) {
+            //get hotel location
+            Location hotelLocation = new Location("gps");
+            hotelLocation.setLatitude(Double.parseDouble(hotel.getLatitude()));
+            hotelLocation.setLongitude(Double.parseDouble(hotel.getLongitude()));
+            //get current location
+            Location currentLocation = Utils.getLocationFromPref(context);
+            //calculate distance
+            if (currentLocation != null) {
+                distance = currentLocation.distanceTo(hotelLocation);
+            }
+        }
+        return distance;
     }
 }

@@ -16,6 +16,7 @@ import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.adapter.DistrictAdapter;
 import com.example.dangnguyenhai.gohotel.adapter.ProvinceAdapter;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.api.CityForm;
 import com.example.dangnguyenhai.gohotel.model.api.DistrictForm;
 
@@ -50,9 +51,13 @@ public class ChooseAreaActivity extends AppCompatActivity {
 
     private void getListCity() {
         // lấy danh sách thành
+        DialogLoadingProgress.getInstance().show(this);
+
         GoHotelApplication.serviceApi.getCity().enqueue(new Callback<List<CityForm>>() {
             @Override
             public void onResponse(Call<List<CityForm>> call, Response<List<CityForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     //danh sach thành phó lưu vào body
                     List<CityForm> cityForms = response.body();
@@ -67,6 +72,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<CityForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });
@@ -105,9 +111,12 @@ public class ChooseAreaActivity extends AppCompatActivity {
 
     private void getDistrict(int provine) {
         // api để lấy quận huyện
+        DialogLoadingProgress.getInstance().show(this);
         GoHotelApplication.serviceApi.accordingToCityId(provine).enqueue(new Callback<List<DistrictForm>>() {
             @Override
             public void onResponse(Call<List<DistrictForm>> call, Response<List<DistrictForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<DistrictForm> districtForms = response.body();
                     if (districtForms != null && districtForms.size() > 0) {
@@ -120,6 +129,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<DistrictForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

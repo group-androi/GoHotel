@@ -41,7 +41,15 @@ public class BookingUserForm {
     @SerializedName("status")
     @Expose
     private int status;
-
+    @SerializedName("hotel_id")
+    @Expose
+    private int hotelId;
+    @SerializedName("room_id")
+    @Expose
+    private int roomId;
+    @SerializedName("reviewed")
+    @Expose
+    private String reviewed;
     public int getIdBook() {
         return idBook;
     }
@@ -136,5 +144,29 @@ public class BookingUserForm {
 
     public void setLinkImage(String linkImage) {
         this.linkImage = linkImage;
+    }
+
+    public int getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getReviewed() {
+        return reviewed;
+    }
+
+    public void setReviewed(String reviewed) {
+        this.reviewed = reviewed;
     }
 }

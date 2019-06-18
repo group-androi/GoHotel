@@ -48,6 +48,8 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
                 .placeholder(R.drawable.loading_big)
                 .error(R.drawable.loading_big);
         Glide.with(context).load(hotelForm.getNameImage()).apply(requestOptions).into(holder.imgHotel);
+        float distance = Utils.calculateDistance(hotelForm, context);
+        holder.tvDistance.setText(Utils.meterToKm(distance));
         holder.tvReview.setText(String.valueOf(hotelForm.getCountStar()));
         holder.tvCheckIn.setText(String.format("Giờ check-in ngày: từ %sh", hotelForm.getCheckIn()));
         holder.tvCheckOut.setText(String.format("Giờ check-out ngày: cho đến %sh", hotelForm.getCheckOut()));
@@ -62,10 +64,11 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgHotel;
         TextView tvHotelName, tvAddress, tvPrice, tvPriceDiscount;
-        TextView tvReview, tvCheckIn, tvCheckOut;
+        TextView tvReview, tvCheckIn, tvCheckOut, tvDistance;
 
         ViewHolder(View itemView) {
             super(itemView);
+            tvDistance = itemView.findViewById(R.id.tvDistance);
             tvCheckOut = itemView.findViewById(R.id.tvCheckOut);
             tvCheckIn = itemView.findViewById(R.id.tvCheckIn);
             tvReview = itemView.findViewById(R.id.tvReview);

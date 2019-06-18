@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.api.BookRes;
 import com.example.dangnguyenhai.gohotel.model.api.ResponseUserCreate;
 import com.example.dangnguyenhai.gohotel.model.api.UserInfo;
@@ -145,9 +146,13 @@ public class EditProfileActivity extends AppCompatActivity {
         // update user
         String finalGender = gender;
         //gọi api update user
+        DialogLoadingProgress.getInstance().show(this);
+
         GoHotelApplication.serviceApi.updateUser(PreferenceUtils.getToken(this),phone,pass,gender,email,birthday).enqueue(new Callback<BookRes>() {
             @Override
             public void onResponse(Call<BookRes> call, Response<BookRes> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if(response.code()==200){
                     BookRes bookRes=response.body();
                     if(bookRes!=null){
@@ -172,6 +177,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BookRes> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

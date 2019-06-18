@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.api.BookRes;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 
@@ -103,10 +104,13 @@ public class ChangPasswordActivity extends AppCompatActivity {
 
         String newPass = edtNewPassword.getText().toString();
 
+        DialogLoadingProgress.getInstance().show(this);
 
         GoHotelApplication.serviceApi.changePassword(PreferenceUtils.getToken(this), phone, pass, newPass).enqueue(new Callback<BookRes>() {
             @Override
             public void onResponse(Call<BookRes> call, Response<BookRes> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     BookRes bookRes = response.body();
                     if (bookRes != null && bookRes.getResult() > 0) {
@@ -123,6 +127,7 @@ public class ChangPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BookRes> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

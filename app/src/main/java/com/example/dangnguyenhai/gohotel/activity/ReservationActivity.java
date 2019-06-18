@@ -32,6 +32,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.adapter.ChooseRoomTypeListAdapter;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
 import com.example.dangnguyenhai.gohotel.model.api.BookRes;
 import com.example.dangnguyenhai.gohotel.model.api.HotelImageForm;
@@ -167,6 +168,7 @@ public class ReservationActivity extends AppCompatActivity implements ChooseRoom
     }
 
     private void gethotelDetail() {
+        DialogLoadingProgress.getInstance().show(this);
         GoHotelApplication.serviceApi.getHotelDetail(hotelId).enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
@@ -208,9 +210,13 @@ public class ReservationActivity extends AppCompatActivity implements ChooseRoom
     }
 
     private void getRoomHotel() {
+        DialogLoadingProgress.getInstance().show(this);
+
         GoHotelApplication.serviceApi.getRoomTypeHotel(hotelId).enqueue(new Callback<List<RoomTypeForm>>() {
             @Override
             public void onResponse(Call<List<RoomTypeForm>> call, Response<List<RoomTypeForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<RoomTypeForm> roomTypeForms = response.body();
                     if (roomTypeForms != null && roomTypeForms.size() > 0) {
@@ -224,6 +230,7 @@ public class ReservationActivity extends AppCompatActivity implements ChooseRoom
 
             @Override
             public void onFailure(Call<List<RoomTypeForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });
@@ -273,10 +280,14 @@ public class ReservationActivity extends AppCompatActivity implements ChooseRoom
     }
 
     private void bookRoom() {
+        DialogLoadingProgress.getInstance().show(this);
+
         String timeBook = AppTimeUtils.getSystemDay(new SimpleDateFormat(AppTimeUtils.yyyyMMddHHmmss));
-        GoHotelApplication.serviceApi.bookRoom(hotelId, roomId, AppTimeUtils.changeDateUpToServer(startDate), AppTimeUtils.changeDateUpToServer(endDate), hotelFee, timeBook, "0778204451", "", PreferenceUtils.getToken(this)).enqueue(new Callback<BookRes>() {
+        GoHotelApplication.serviceApi.bookRoom(GoHotelApplication.DEVICE_ID,hotelId, roomId, AppTimeUtils.changeDateUpToServer(startDate), AppTimeUtils.changeDateUpToServer(endDate), hotelFee, timeBook, "0778204451", "", PreferenceUtils.getToken(this)).enqueue(new Callback<BookRes>() {
             @Override
             public void onResponse(Call<BookRes> call, Response<BookRes> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     BookRes bookRes = response.body();
                     if (bookRes.getResult() != 0) {
@@ -297,6 +308,7 @@ public class ReservationActivity extends AppCompatActivity implements ChooseRoom
 
             @Override
             public void onFailure(Call<BookRes> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

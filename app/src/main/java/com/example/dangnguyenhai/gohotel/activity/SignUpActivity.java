@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.api.ResponseUserCreate;
 import com.example.dangnguyenhai.gohotel.utils.AppTimeUtils;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
@@ -151,6 +152,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void checkPhoneAlready(CheckPhoneListener checkPhoneListener) {
         // lấy số điện thoại đã nhập ra
         String phone = edtPhone.getText().toString();
+
         GoHotelApplication.serviceApi.checkEqualPhone(phone, "").enqueue(new Callback<ResponseUserCreate>() {
             @Override
             public void onResponse(Call<ResponseUserCreate> call, Response<ResponseUserCreate> response) {
@@ -207,9 +209,12 @@ public class SignUpActivity extends AppCompatActivity {
         if (!rdNam.isChecked())
             gender = "nữ";
         //gọi api create user
+        DialogLoadingProgress.getInstance().show(context);
         GoHotelApplication.serviceApi.createUser(phone, pass, birthday, email, gender, GoHotelApplication.DEVICE_ID, "").enqueue(new Callback<ResponseUserCreate>() {
             @Override
             public void onResponse(Call<ResponseUserCreate> call, retrofit2.Response<ResponseUserCreate> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     //json se dc trả về trong response body
                     ResponseUserCreate responseUserCreate = response.body();
@@ -232,6 +237,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseUserCreate> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

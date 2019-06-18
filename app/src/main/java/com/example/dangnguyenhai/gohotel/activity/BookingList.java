@@ -1,5 +1,6 @@
 package com.example.dangnguyenhai.gohotel.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.adapter.MyBookingAdapter;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.api.BookingUserForm;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
 
@@ -26,6 +28,13 @@ public class BookingList extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booking_list_activity);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+            }
+        }
+
         rcvMyBooking = findViewById(R.id.rcvMyBooking);
         // mỗi một recyclerview sẽ được quản lý bằng layout manager
         rcvMyBooking.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -40,9 +49,12 @@ public class BookingList extends AppCompatActivity {
 
     private void getMyBooking() {
         //danh sách booking
+        DialogLoadingProgress.getInstance().show(this);
         GoHotelApplication.serviceApi.getMyBooking(PreferenceUtils.getToken(this)).enqueue(new Callback<List<BookingUserForm>>() {
             @Override
             public void onResponse(Call<List<BookingUserForm>> call, Response<List<BookingUserForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     //list danh sach boooking trong responese.body
                     bookingUserForms = response.body();
@@ -56,6 +68,7 @@ public class BookingList extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<BookingUserForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

@@ -32,6 +32,7 @@ import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.activity.ChooseAreaActivity;
 import com.example.dangnguyenhai.gohotel.adapter.HotelMapAdapter;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.gps.GeoCodeService;
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
 import com.example.dangnguyenhai.gohotel.model.MarkerWrapper;
@@ -286,9 +287,13 @@ public class MapFragment extends Fragment {
     private void getHotelMap() {
         String lat = PreferenceUtils.getLatLocation(context);
         String longlati = PreferenceUtils.getLongLocation(context);
+        DialogLoadingProgress.getInstance().show(context);
+
         GoHotelApplication.serviceApi.getHotelMap(lat, longlati, radiusMap() / 1000).enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -310,6 +315,7 @@ public class MapFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });
@@ -551,9 +557,13 @@ public class MapFragment extends Fragment {
         tvChooseArea.setText(districtName);
         String lat = PreferenceUtils.getLatLocation(context);
         String longlati = PreferenceUtils.getLongLocation(context);
+        DialogLoadingProgress.getInstance().show(context);
+
         GoHotelApplication.serviceApi.getHotelMap(lat, longlati, radiusMap() / 1000, city, district).enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -582,6 +592,7 @@ public class MapFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });
@@ -591,9 +602,13 @@ public class MapFragment extends Fragment {
         tvChooseArea.setText(cityName);
         String lat = PreferenceUtils.getLatLocation(context);
         String longlati = PreferenceUtils.getLongLocation(context);
+        DialogLoadingProgress.getInstance().show(context);
+
         GoHotelApplication.serviceApi.getHotelMap(lat, longlati, radiusMap() / 1000, city).enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -621,6 +636,7 @@ public class MapFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

@@ -152,7 +152,7 @@ public interface ServiceApi {
 
     @POST("/API_GoHotel/book/create.php")
     @FormUrlEncoded
-    Call<BookRes> bookRoom(@Field("hotel_id") int hotel_id, @Field("room_id") int room_id, @Field("date_start") String date_start, @Field("date_end") String date_end, @Field("price") int price, @Field("time_book") String time_book, @Field("phone") String phone, @Field("info_user") String info_user, @Header("token") String token);
+    Call<BookRes> bookRoom(@Field("device_id") String device_id,@Field("hotel_id") int hotel_id, @Field("room_id") int room_id, @Field("date_start") String date_start, @Field("date_end") String date_end, @Field("price") int price, @Field("time_book") String time_book, @Field("phone") String phone, @Field("info_user") String info_user, @Header("token") String token);
 
     @POST("/API_GoHotel/book/get.php")
     @FormUrlEncoded
@@ -160,7 +160,7 @@ public interface ServiceApi {
 
     @POST("/API_GoHotel/book/get.php")
     @FormUrlEncoded
-    Call<List<BookingUserForm>> getBookingDetailByStatus(@Field("status") int status, @Field("date_end") String date_end);
+    Call<List<BookingUserForm>> getBookingDetailByStatus(@Field("device_id ") String device_id,@Field("status") int status, @Field("date_end") String date_end);
 
     @POST("/API_GoHotel/book/getAccordingToToken.php")
     Call<List<BookingUserForm>> getMyBooking(@Header("token") String token);
@@ -177,5 +177,9 @@ public interface ServiceApi {
     @POST("/API_GoHotel/user/changePassword.php")
     @FormUrlEncoded
     Call<BookRes> changePassword(@Header("token") String token, @Field("phone") String phone, @Field("password_old") String password_old, @Field("password_new") String password_new);
+
+    @POST("/API_GoHotel/review/create.php")
+    @FormUrlEncoded
+    Call<BookRes> reviewHotel(@Header("token") String token,@Field("hotel_id") int hotel_id, @Field("room_id") int room_id, @Field("user") String user, @Field("comment") String comment, @Field("star") int star);
 
 }

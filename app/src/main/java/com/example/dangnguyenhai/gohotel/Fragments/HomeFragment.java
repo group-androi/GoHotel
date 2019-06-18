@@ -24,6 +24,7 @@ import com.example.dangnguyenhai.gohotel.activity.ChooseAreaActivity;
 import com.example.dangnguyenhai.gohotel.activity.HotelDetailActivity;
 import com.example.dangnguyenhai.gohotel.activity.SortFilterActivity;
 import com.example.dangnguyenhai.gohotel.adapter.HotelAdapter;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
 import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
 import com.example.dangnguyenhai.gohotel.utils.PreferenceUtils;
@@ -124,7 +125,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ((Activity)context).getWindow().setStatusBarColor(context.getResources().getColor(R.color.colorWhite));
+                ((Activity) context).getWindow().setStatusBarColor(context.getResources().getColor(R.color.colorWhite));
             }
         }
 
@@ -152,9 +153,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void getHotelHome() {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
+        DialogLoadingProgress.getInstance().show(context);
+
         GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -167,6 +172,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -184,10 +191,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -200,6 +210,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -209,10 +221,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -226,6 +241,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                DialogLoadingProgress.getInstance().hide();
+
             }
         });
     }
@@ -234,10 +251,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, city, district, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -251,6 +271,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                DialogLoadingProgress.getInstance().hide();
+
             }
         });
     }
@@ -267,10 +289,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -283,6 +308,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -292,10 +319,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -309,6 +340,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                DialogLoadingProgress.getInstance().hide();
+
             }
         });
     }
@@ -317,10 +350,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHome(lat, longtidue, offset, GoHotelApplication.limit, city, district, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -334,6 +370,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                DialogLoadingProgress.getInstance().hide();
+
             }
         });
     }
@@ -395,10 +433,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHomeStar(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -412,6 +453,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                DialogLoadingProgress.getInstance().hide();
+
             }
         });
     }
@@ -420,10 +463,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHomeStar(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -436,6 +482,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -445,10 +493,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHomeStar(lat, longtidue, offset, GoHotelApplication.limit, city, district, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -461,6 +512,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -486,6 +539,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
@@ -511,10 +565,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, city, priceStart, priceEnd, "DESC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -527,6 +584,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -536,10 +595,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String lat = PreferenceUtils.getLatLocation(context);
         String longtidue = PreferenceUtils.getLongLocation(context);
 
+        DialogLoadingProgress.getInstance().show(context);
 
         GoHotelApplication.serviceApi.getHotelHomeDistance(lat, longtidue, offset, GoHotelApplication.limit, city, district, priceStart, priceEnd, "ASC").enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -552,6 +614,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
+
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

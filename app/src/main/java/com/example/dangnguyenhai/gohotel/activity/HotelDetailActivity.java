@@ -25,6 +25,7 @@ import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.adapter.RoomImageDetailAdapter;
 import com.example.dangnguyenhai.gohotel.adapter.RoomTypeAdapter;
+import com.example.dangnguyenhai.gohotel.dialog.DialogLoadingProgress;
 import com.example.dangnguyenhai.gohotel.model.HotelForm;
 import com.example.dangnguyenhai.gohotel.model.api.HotelImageForm;
 import com.example.dangnguyenhai.gohotel.model.api.RoomTypeForm;
@@ -131,9 +132,13 @@ public class HotelDetailActivity extends AppCompatActivity {
 
 
     private void gethotelDetail() {
+        DialogLoadingProgress.getInstance().show(this);
+
         GoHotelApplication.serviceApi.getHotelDetail(hotelId).enqueue(new Callback<List<HotelForm>>() {
             @Override
             public void onResponse(Call<List<HotelForm>> call, Response<List<HotelForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelForm> hotelForms = response.body();
                     if (hotelForms != null && hotelForms.size() > 0) {
@@ -146,15 +151,20 @@ public class HotelDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<HotelForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });
     }
 
     private void getImageHotel() {
+        DialogLoadingProgress.getInstance().show(this);
+
         GoHotelApplication.serviceApi.getImageHotel(hotelId).enqueue(new Callback<List<HotelImageForm>>() {
             @Override
             public void onResponse(Call<List<HotelImageForm>> call, Response<List<HotelImageForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<HotelImageForm> hotelImageForms = response.body();
                     if (hotelImageForms != null && hotelImageForms.size() > 0) {
@@ -167,15 +177,20 @@ public class HotelDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<HotelImageForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });
     }
 
     private void getRoomHotel() {
+        DialogLoadingProgress.getInstance().show(this);
+
         GoHotelApplication.serviceApi.getRoomTypeHotel(hotelId).enqueue(new Callback<List<RoomTypeForm>>() {
             @Override
             public void onResponse(Call<List<RoomTypeForm>> call, Response<List<RoomTypeForm>> response) {
+                DialogLoadingProgress.getInstance().hide();
+
                 if (response.code() == 200) {
                     List<RoomTypeForm> roomTypeForms = response.body();
                     if (roomTypeForms != null && roomTypeForms.size() > 0) {
@@ -188,6 +203,7 @@ public class HotelDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<RoomTypeForm>> call, Throwable t) {
+                DialogLoadingProgress.getInstance().hide();
 
             }
         });

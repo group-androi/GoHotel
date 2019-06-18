@@ -35,6 +35,7 @@ public class UserInfo {
     }
 
     public String getNumberPhone() {
+        if (numberPhone == null) return "";
         return numberPhone;
     }
 

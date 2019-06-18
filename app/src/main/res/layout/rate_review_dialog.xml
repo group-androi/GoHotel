@@ -52,7 +52,7 @@
                         android:layout_height="40dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="9dp"
-                        android:src="@drawable/review_star" />
+                        android:src="@drawable/star" />
 
                     <ImageView
                         android:id="@+id/btnStar2"
@@ -60,7 +60,7 @@
                         android:layout_height="40dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="9dp"
-                        android:src="@drawable/review_star" />
+                        android:src="@drawable/star" />
 
                     <ImageView
                         android:id="@+id/btnStar3"
@@ -68,7 +68,7 @@
                         android:layout_height="40dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="9dp"
-                        android:src="@drawable/review_star" />
+                        android:src="@drawable/star" />
 
                     <ImageView
                         android:id="@+id/btnStar4"
@@ -76,7 +76,7 @@
                         android:layout_height="40dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="9dp"
-                        android:src="@drawable/review_star" />
+                        android:src="@drawable/star" />
 
                     <ImageView
                         android:id="@+id/btnStar5"
@@ -84,7 +84,7 @@
                         android:layout_height="40dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="9dp"
-                        android:src="@drawable/review_star" />
+                        android:src="@drawable/star" />
                 </LinearLayout>
 
                 <android.support.v7.widget.CardView
