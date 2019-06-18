@@ -1,5 +1,6 @@
 package com.example.dangnguyenhai.gohotel.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
@@ -17,6 +18,7 @@ import com.example.dangnguyenhai.gohotel.Fragments.HomeFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.MapFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.MyPageFragment;
 import com.example.dangnguyenhai.gohotel.Fragments.SearchFragment;
+import com.example.dangnguyenhai.gohotel.GoHotelApplication;
 import com.example.dangnguyenhai.gohotel.R;
 import com.example.dangnguyenhai.gohotel.dialog.DialogReviewHotel;
 import com.example.dangnguyenhai.gohotel.utils.ParamConstants;
@@ -99,6 +101,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void getBookingDetailByStatus(){
+//        String date=
+//        GoHotelApplication.serviceApi.getBookingDetailByStatus(0,)
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -120,6 +127,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void changeTab(int potition) {
 
         if (potition == TypeFragment.HOME.getType()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+                }
+            }
+
             imgHome.setImageResource(R.drawable.home_selected);
             imgSearch.setImageResource(R.drawable.search);
             imgMap.setImageResource(R.drawable.map);
@@ -164,6 +178,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ft.commit();
 
         } else if (potition == TypeFragment.MAP.getType()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+                }
+            }
+
             imgHome.setImageResource(R.drawable.home);
             imgSearch.setImageResource(R.drawable.search);
             imgMap.setImageResource(R.drawable.map_selected);
@@ -208,6 +228,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ft.commit();
 
         } else if (potition == TypeFragment.SEARCH.getType()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+                }
+            }
+
             imgHome.setImageResource(R.drawable.home);
             imgSearch.setImageResource(R.drawable.search_selected);
             imgMap.setImageResource(R.drawable.map);
@@ -250,10 +276,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Commit changes
             ft.commit();
         } else {
+
             if (PreferenceUtils.getToken(this).isEmpty()) {
                 gotoLogin();
                 return;
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+                }
+            }
+
             imgHome.setImageResource(R.drawable.home);
             imgSearch.setImageResource(R.drawable.search);
             imgMap.setImageResource(R.drawable.map);

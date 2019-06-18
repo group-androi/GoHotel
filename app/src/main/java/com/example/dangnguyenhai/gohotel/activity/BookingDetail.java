@@ -1,5 +1,6 @@
 package com.example.dangnguyenhai.gohotel.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,13 @@ public class BookingDetail extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booking_detail_activity);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+            }
+        }
+
         tvSoDienThoai = findViewById(R.id.tvSoDienThoai);
         tvHotelTitle = findViewById(R.id.tvHotelTitle);
         tvBookingId = findViewById(R.id.tvBookingId);
@@ -51,7 +59,7 @@ public class BookingDetail extends AppCompatActivity {
             public void onResponse(Call<BookRes> call, Response<BookRes> response) {
                 if (response.code() == 200) {
                     BookRes bookRes = response.body();
-                    if (bookRes!=null&&bookRes.getResult() == 1) {
+                    if (bookRes != null && bookRes.getResult() == 1) {
                         getBookingDetail();
                     }
                 }

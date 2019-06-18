@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -110,6 +111,13 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.map_fragment, container, false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ((Activity)context).getWindow().setStatusBarColor(context.getResources().getColor(R.color.colorWhite));
+            }
+        }
+
         tvAddress = rootView.findViewById(R.id.tvAddress);
         tvAddress.setText(address);
         tvChooseArea = rootView.findViewById(R.id.tvChooseArea);

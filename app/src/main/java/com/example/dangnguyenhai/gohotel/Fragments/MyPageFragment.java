@@ -3,6 +3,7 @@ package com.example.dangnguyenhai.gohotel.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,6 +51,13 @@ public class MyPageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.my_page_fragment, container, false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ((Activity)context).getWindow().setStatusBarColor(context.getResources().getColor(R.color.colorPrimary));
+            }
+        }
+
         // lấy thông tin người dùng
         userInfo = PreferenceUtils.getUserInfo(context);
         //parse json thành user infor

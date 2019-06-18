@@ -1,7 +1,9 @@
 package com.example.dangnguyenhai.gohotel.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -119,6 +121,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ((Activity)context).getWindow().setStatusBarColor(context.getResources().getColor(R.color.colorWhite));
+            }
+        }
+
         TextView tvAddress = rootView.findViewById(R.id.tvAddress);
         imgSort = rootView.findViewById(R.id.imgSort);
         imgSort.setOnClickListener(this);

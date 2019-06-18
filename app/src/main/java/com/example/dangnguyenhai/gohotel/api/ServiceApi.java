@@ -66,7 +66,7 @@ public interface ServiceApi {
             , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
             , @Field("limitcount") int limitcount, @Field("city_id") int city_id
             , @Field("district_id") int district_id, @Field("price_start") int price_start, @Field("price_end") int price_end
-            , @Field("sort_distance ") String sort_distance );
+            , @Field("sort_distance ") String sort_distance);
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
@@ -74,7 +74,7 @@ public interface ServiceApi {
             , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
             , @Field("limitcount") int limitcount, @Field("city_id") int city_id
             , @Field("price_start") int price_start, @Field("price_end") int price_end
-            , @Field("sort_distance ") String sort_distance );
+            , @Field("sort_distance ") String sort_distance);
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
@@ -82,7 +82,7 @@ public interface ServiceApi {
             , @Field("longitude") String longitude, @Field("limitfrom") int limitfrom
             , @Field("limitcount") int limitcount
             , @Field("price_start") int price_start, @Field("price_end") int price_end
-            , @Field("sort_distance ") String sort_distance );
+            , @Field("sort_distance ") String sort_distance);
 
     @POST("/API_GoHotel/hotel/getHotelHome.php")
     @FormUrlEncoded
@@ -160,7 +160,7 @@ public interface ServiceApi {
 
     @POST("/API_GoHotel/book/get.php")
     @FormUrlEncoded
-    Call<List<BookingUserForm>> getBookingDetailByStatus(@Field("status") int status);
+    Call<List<BookingUserForm>> getBookingDetailByStatus(@Field("status") int status, @Field("date_end") String date_end);
 
     @POST("/API_GoHotel/book/getAccordingToToken.php")
     Call<List<BookingUserForm>> getMyBooking(@Header("token") String token);
